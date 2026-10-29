@@ -17,11 +17,11 @@ import AppHeader from './components/AppHeader.vue'
 }
 
 body {
-  font-family: 'Noto Sans SC', sans-serif;
+  font-family: 'Noto Sans SC', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
   color: #3D2914;
 }
 
 h1, h2, h3 {
-  font-family: 'Noto Serif SC', serif;
+  font-family: 'Noto Serif SC', 'Malgun Gothic', 'Apple SD Gothic Neo', serif;
 }
 </style>

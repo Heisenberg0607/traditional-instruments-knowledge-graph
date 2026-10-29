@@ -2,8 +2,8 @@
   <div class="min-h-screen">
     <main class="container mx-auto px-6 py-10">
       <div class="mb-10 text-center">
-        <h2 class="mb-2 text-3xl font-bold text-amber-900">统计分析与可视化</h2>
-        <p class="text-stone-500">基于 {{ store.artifacts.length }} 件文物数据的乐器类型、时代、地域、组合共现与音乐性能信息分析</p>
+        <h2 class="mb-2 text-3xl font-bold text-amber-900">{{ t("统计分析与可视化") }}</h2>
+        <p class="text-stone-500">{{ t("基于 {0} 件文物数据的乐器类型、时代、地域、组合共现与音乐性能信息分析", [store.artifacts.length]) }}</p>
       </div>
 
       <section class="mb-10 grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -13,9 +13,9 @@
           class="flex flex-col items-center rounded-xl border-t-4 bg-white p-5 shadow-md"
           :style="{ borderColor: card.color }"
         >
-          <span class="mb-1 text-3xl">{{ card.icon }}</span>
-          <span class="text-2xl font-bold text-amber-900">{{ card.value }}</span>
-          <span class="mt-1 text-sm text-stone-500">{{ card.label }}</span>
+          <span class="mb-1 text-3xl">{{ localize(card.icon) }}</span>
+          <span class="text-2xl font-bold text-amber-900">{{ localize(card.value) }}</span>
+          <span class="mt-1 text-sm text-stone-500">{{ localize(card.label) }}</span>
         </div>
       </section>
 
@@ -23,10 +23,10 @@
         <article class="chart-card xl:col-span-2">
           <div class="chart-head">
             <div>
-              <h3 class="chart-title">乐器类型分布</h3>
-              <p class="chart-desc">使用层级饼图展示乐器具体器型的分类关系</p>
+              <h3 class="chart-title">{{ t("乐器类型分布") }}</h3>
+              <p class="chart-desc">{{ t("使用层级饼图展示乐器具体器型的分类关系") }}</p>
             </div>
-            <button v-if="selectedTypePath !== '乐器'" class="small-action" @click="resetSunburst">重置</button>
+            <button v-if="selectedTypePath !== '乐器'" class="small-action" @click="resetSunburst">{{ t("重置") }}</button>
           </div>
 
           <div class="type-layout">
@@ -34,49 +34,43 @@
               <div class="sunburst-wrap">
                 <svg ref="sunburstRef" class="sunburst-svg" :width="sunburstSize" :height="sunburstSize"></svg>
               </div>
-              <p class="mt-4 rounded-lg bg-amber-50 px-4 py-3 text-xs leading-6 text-stone-600">
-                外圈为具体乐器类型；单击任一扇区可聚焦该层级，单击饼图中心或空白背景可回退。
-              </p>
+              <p class="mt-4 rounded-lg bg-amber-50 px-4 py-3 text-xs leading-6 text-stone-600">{{ t("外圈为具体乐器类型；单击任一扇区可聚焦该层级，单击饼图中心或空白背景可回退。") }}</p>
             </div>
 
             <aside class="type-panel">
-              <p class="mb-1 text-xs text-stone-400">当前类别</p>
-              <h4 class="mb-2 text-2xl font-bold text-amber-900">{{ selectedTypeDetail.name }}</h4>
-              <p class="mb-4 text-sm leading-6 text-stone-600">{{ selectedTypeDetail.description }}</p>
+              <p class="mb-1 text-xs text-stone-400">{{ t("当前类别") }}</p>
+              <h4 class="mb-2 text-2xl font-bold text-amber-900">{{ localize(selectedTypeDetail.name) }}</h4>
+              <p class="mb-4 text-sm leading-6 text-stone-600">{{ localize(selectedTypeDetail.description) }}</p>
 
               <div class="mb-4 grid grid-cols-3 gap-2">
-                <div class="mini-stat"><span>{{ selectedTypeDetail.records }}</span><em>记录数</em></div>
-                <div class="mini-stat"><span>{{ selectedTypeDetail.quantity }}</span><em>总数量</em></div>
-                <div class="mini-stat"><span>{{ selectedTypeDetail.percent }}</span><em>占比</em></div>
+                <div class="mini-stat"><span>{{ localize(selectedTypeDetail.records) }}</span><em>{{ t("记录数") }}</em></div>
+                <div class="mini-stat"><span>{{ localize(selectedTypeDetail.quantity) }}</span><em>{{ t("总数量") }}</em></div>
+                <div class="mini-stat"><span>{{ localize(selectedTypeDetail.percent) }}</span><em>{{ t("占比") }}</em></div>
               </div>
 
               <div class="type-donut-grid">
                 <div class="type-donut-card">
                   <h5 class="panel-subtitle chip-title chip-blue">
-                    <span class="chip-title-dot"></span>
-                    地域分布
-                  </h5>
+                    <span class="chip-title-dot"></span>{{ t("地域分布") }}</h5>
                   <svg ref="typeProvinceDonutRef" class="type-donut-svg" height="210"></svg>
                 </div>
 
                 <div class="type-donut-card">
                   <h5 class="panel-subtitle chip-title chip-purple">
-                    <span class="chip-title-dot"></span>
-                    时代分布
-                  </h5>
+                    <span class="chip-title-dot"></span>{{ t("时代分布") }}</h5>
                   <svg ref="typeEraDonutRef" class="type-donut-svg" height="210"></svg>
                 </div>
               </div>
 
               <div class="mt-4">
-                <h5 class="panel-subtitle">具体案例</h5>
+                <h5 class="panel-subtitle">{{ t("具体案例") }}</h5>
                 <div v-if="selectedTypeDetail.cases.length" class="space-y-2">
                   <div v-for="item in selectedTypeDetail.cases" :key="item.record_id" class="case-row" @click="viewArtifact(item.record_id)">
-                    <strong>{{ item.器物名称 || item.record_id }}</strong>
-                    <span>{{ getArtifactProvince(item) }} · {{ item.时代 || '时代未详' }}</span>
+                    <strong>{{ localize(item.器物名称 || item.record_id) }}</strong>
+                    <span>{{ localize(getArtifactProvince(item)) }} · {{ localize(item.时代 || '时代未详') }}</span>
                   </div>
                 </div>
-                <p v-else class="empty-text">暂无案例</p>
+                <p v-else class="empty-text">{{ t("暂无案例") }}</p>
               </div>
             </aside>
           </div>
@@ -85,10 +79,10 @@
         <article class="chart-card xl:col-span-2">
           <div class="chart-head">
             <div>
-              <h3 class="chart-title">中国省级分布图</h3>
-              <p class="chart-desc">底图与省份交互层会同步缩放移动，单击省份后展示详细信息。</p>
+              <h3 class="chart-title">{{ t("中国省级分布图") }}</h3>
+              <p class="chart-desc">{{ t("底图与省份交互层会同步缩放移动，单击省份后展示详细信息。") }}</p>
             </div>
-            <button class="small-action" @click="resetMapView">重置</button>
+            <button class="small-action" @click="resetMapView">{{ t("重置") }}</button>
           </div>
 
           <div class="map-layout">
@@ -98,12 +92,12 @@
 
             <aside class="province-panel">
               <template v-if="activeProvinceStats">
-                <p class="mb-1 text-xs text-stone-400">当前省份</p>
-                <h4 class="mb-3 text-2xl font-bold text-amber-900">{{ activeProvinceStats.province }}</h4>
+                <p class="mb-1 text-xs text-stone-400">{{ t("当前省份") }}</p>
+                <h4 class="mb-3 text-2xl font-bold text-amber-900">{{ localize(activeProvinceStats.province) }}</h4>
                 <div class="mb-4 grid grid-cols-3 gap-2">
-                  <div class="mini-stat"><span>{{ activeProvinceStats.records }}</span><em>记录数</em></div>
-                  <div class="mini-stat"><span>{{ activeProvinceStats.totalCount }}</span><em>总数量</em></div>
-                  <div class="mini-stat"><span>{{ activeProvinceStats.typeCount }}</span><em>器类数</em></div>
+                  <div class="mini-stat"><span>{{ localize(activeProvinceStats.records) }}</span><em>{{ t("记录数") }}</em></div>
+                  <div class="mini-stat"><span>{{ localize(activeProvinceStats.totalCount) }}</span><em>{{ t("总数量") }}</em></div>
+                  <div class="mini-stat"><span>{{ localize(activeProvinceStats.typeCount) }}</span><em>{{ t("器类数") }}</em></div>
                 </div>
 
                 <InfoList title="博物馆 / 保存机构" :items="activeProvinceStats.institutions" mode="single" :limit="3" />
@@ -113,7 +107,7 @@
               </template>
               <template v-else>
                 <div class="empty-panel">
-                  <p>请悬停或单击地图中的省份查看详细统计。</p>
+                  <p>{{ t("请悬停或单击地图中的省份查看详细统计。") }}</p>
                 </div>
               </template>
             </aside>
@@ -123,8 +117,8 @@
         <article class="chart-card xl:col-span-2">
           <div class="chart-head">
             <div>
-              <h3 class="chart-title">地区 × 乐器类型热力图</h3>
-              <p class="chart-desc">颜色越深表示该地区该器类记录越多；点击有数值的单元格跳转到对应检索页面，例如“上海 × 甬钟”。</p>
+              <h3 class="chart-title">{{ t("地区 × 乐器类型热力图") }}</h3>
+              <p class="chart-desc">{{ t("颜色越深表示该地区该器类记录越多；点击有数值的单元格跳转到对应检索页面，例如“上海 × 甬钟”。") }}</p>
             </div>
           </div>
           <svg ref="heatmapRef" class="w-full" :height="heatmapHeight"></svg>
@@ -133,8 +127,8 @@
         <article class="chart-card xl:col-span-2">
           <div class="chart-head">
             <div>
-              <h3 class="chart-title">乐器类型演变趋势分析</h3>
-              <p class="chart-desc">随着时代变化，乐器类型存在明显变化。堆叠面积图横轴为朝代，纵轴为数量，颜色表示具体器类。</p>
+              <h3 class="chart-title">{{ t("乐器类型演变趋势分析") }}</h3>
+              <p class="chart-desc">{{ t("随着时代变化，乐器类型存在明显变化。堆叠面积图横轴为朝代，纵轴为数量，颜色表示具体器类。") }}</p>
             </div>
           </div>
           <svg ref="stackedRef" class="w-full" :height="stackedHeight"></svg>
@@ -143,8 +137,8 @@
         <article class="chart-card xl:col-span-2">
           <div class="chart-head">
             <div>
-              <h3 class="chart-title">乐器组合共现关系分析</h3>
-              <p class="chart-desc">按同一出土地点或同一机构时代归并，展示高频器物组合聚类。点击左侧聚类圆或连线后，右侧只显示当前选中组合与图例。</p>
+              <h3 class="chart-title">{{ t("乐器组合共现关系分析") }}</h3>
+              <p class="chart-desc">{{ t("按同一出土地点或同一机构时代归并，展示高频器物组合聚类。点击左侧聚类圆或连线后，右侧只显示当前选中组合与图例。") }}</p>
             </div>
           </div>
 
@@ -154,9 +148,9 @@
             </div>
             <aside class="co-panel">
               <div v-if="selectedPair" class="selected-pair">
-                <p class="text-xs text-stone-400">当前选中</p>
-                <h5>{{ selectedPair.source }} × {{ selectedPair.target }}</h5>
-                <p>共现 {{ selectedPair.count }} 组地点 / 机构记录</p>
+                <p class="text-xs text-stone-400">{{ t("当前选中") }}</p>
+                <h5>{{ localize(selectedPair.source) }} × {{ localize(selectedPair.target) }}</h5>
+                <p>{{ t("共现 {0} 组地点 / 机构记录", [selectedPair.count]) }}</p>
 
                 <div class="mt-3 space-y-2">
                   <div
@@ -164,25 +158,25 @@
                     :key="index"
                     class="example-card"
                   >
-                    <strong>{{ example.location }}</strong>
-                    <span>{{ example.era || '时代未详' }}</span>
-                    <p>{{ example.artifacts.slice(0, 4).join('、') }}</p>
+                    <strong>{{ localize(example.location) }}</strong>
+                    <span>{{ localize(example.era || '时代未详') }}</span>
+                    <p>{{ localize(example.artifacts.slice(0, 4).join('、')) }}</p>
                   </div>
                 </div>
               </div>
               <div v-else class="selected-pair">
-                <p class="text-xs text-stone-400">当前选中</p>
-                <h5>暂无选中组合</h5>
-                <p>点击左侧聚类圆或连线查看组合信息。</p>
+                <p class="text-xs text-stone-400">{{ t("当前选中") }}</p>
+                <h5>{{ t("暂无选中组合") }}</h5>
+                <p>{{ t("点击左侧聚类圆或连线查看组合信息。") }}</p>
               </div>
 
               <div class="co-legend">
-                <h5 class="panel-subtitle">图例</h5>
+                <h5 class="panel-subtitle">{{ t("图例") }}</h5>
                 <div class="co-legend-list">
-                  <span><i class="legend-dot bell"></i>钟类</span>
-                  <span><i class="legend-dot hit"></i>打击器类</span>
-                  <span><i class="legend-dot clash"></i>碰奏体鸣乐器</span>
-                  <span><i class="legend-dot shake"></i>摇奏体鸣乐器</span>
+                  <span><i class="legend-dot bell"></i>{{ t("钟类") }}</span>
+                  <span><i class="legend-dot hit"></i>{{ t("打击器类") }}</span>
+                  <span><i class="legend-dot clash"></i>{{ t("碰奏体鸣乐器") }}</span>
+                  <span><i class="legend-dot shake"></i>{{ t("摇奏体鸣乐器") }}</span>
                 </div>
               </div>
             </aside>
@@ -201,6 +195,8 @@
 </template>
 
 <script setup>
+import { useI18n } from '../i18n'
+const { t, localize, locale, localizedText } = useI18n()
 import { computed, defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useArtifactStore } from '../stores/artifactStore'
@@ -341,7 +337,7 @@ const InfoList = defineComponent({
                 display: 'inline-block'
               }
             }),
-            props.title
+            t(props.title)
           ]),
           h('span', {
             style: {
@@ -352,17 +348,17 @@ const InfoList = defineComponent({
               color: '#78716c',
               fontSize: '12px'
             }
-          }, `${props.items.length} 项`)
+          }, t("{0} 项", [localize(props.items.length)]))
         ]),
         props.items.length
           ? h('div', { style: bodyStyle }, visible.map(item =>
-              h('div', { style: chipStyle.value, title: `${item.name}：${item.count}` }, [
+              h('div', { style: chipStyle.value, title: `${localize(item.name)}: ${item.count}` }, [
                 h('span', {
                   style: {
                     color: '#1c1917',
                     wordBreak: 'break-word'
                   }
-                }, item.name),
+                }, localize(item.name)),
                 h('em', {
                   style: {
                     fontStyle: 'italic',
@@ -373,7 +369,7 @@ const InfoList = defineComponent({
                 }, item.count)
               ])
             ))
-          : h('p', { style: { color: '#a8a29e', fontSize: '13px' } }, '暂无记录'),
+          : h('p', { style: { color: '#a8a29e', fontSize: '13px' } }, t('暂无记录')),
         props.items.length > props.limit
           ? h('button', {
               style: {
@@ -389,7 +385,7 @@ const InfoList = defineComponent({
                 boxShadow: '0 1px 3px rgba(146,64,14,0.12)'
               },
               onClick: () => { expanded.value = !expanded.value }
-            }, expanded.value ? '收起 ↑' : `更多 ${hiddenCount} 条 ↓`)
+            }, expanded.value ? t("收起 ↑") : t("更多 {0} 条 ↓", [localize(hiddenCount)]))
           : null
       ])
     }
@@ -501,10 +497,10 @@ const summaryCards = computed(() => {
   })
 
   return [
-    { label: '文物记录', value: store.artifacts.length, icon: '🏺', color: '#b45309' },
-    { label: '乐器类型', value: typeSet.size, icon: '🔔', color: '#75a879' },
-    { label: '覆盖省份', value: provinceSet.size, icon: '🗺️', color: '#3d7fd1' },
-    { label: '音乐性能记录', value: musicRecords, icon: '🎼', color: '#9b82bd' }
+    { label: t("文物记录"), value: store.artifacts.length, icon: '🏺', color: '#b45309' },
+    { label: t("乐器类型"), value: typeSet.size, icon: '🔔', color: '#75a879' },
+    { label: t("覆盖省份"), value: provinceSet.size, icon: '🗺️', color: '#3d7fd1' },
+    { label: t("音乐性能记录"), value: musicRecords, icon: '🎼', color: '#9b82bd' }
   ]
 })
 
@@ -637,14 +633,14 @@ function drawSunburst() {
     .style('font-size', '13px')
     .style('font-weight', 800)
     .style('fill', '#7c2d12')
-    .text('乐器')
+    .text(localizedText('乐器'))
 
   const centerCount = center.append('text')
     .attr('text-anchor', 'middle')
     .attr('dy', '1.1em')
     .style('font-size', '12px')
     .style('fill', '#a16207')
-    .text(`${store.artifacts.length} 条`)
+    .text(localizedText(t("{0} 条", [localize(store.artifacts.length)])))
 
   const path = g.append('g')
     .selectAll('path')
@@ -657,7 +653,7 @@ function drawSunburst() {
     .attr('d', d => arc(d.current))
     .style('cursor', 'pointer')
     .on('mouseenter', (event, d) => {
-      showTooltip(event, `<strong>${pathText(d)}</strong><br/>记录数：${d.value}<br/>占比：${((d.value / Math.max(1, root.value)) * 100).toFixed(1)}%`)
+      showTooltip(event, t("<strong>{0}</strong><br/>记录数：{1}<br/>占比：{2}%", [localize(pathText(d)), localize(d.value), localize(((d.value / Math.max(1, root.value)) * 100).toFixed(1))]))
     })
     .on('mousemove', moveTooltip)
     .on('mouseleave', hideTooltip)
@@ -679,7 +675,7 @@ function drawSunburst() {
     .style('font-weight', 700)
     .style('fill', d => d.depth <= 2 ? '#292524' : '#44403c')
     .style('fill-opacity', d => labelVisible(d.current) ? 1 : 0)
-    .text(d => d.data.name)
+    .text(localizedText(d => d.data.name))
 
   if (currentFocus !== root) {
     applyFocus(currentFocus, false)
@@ -693,8 +689,8 @@ function drawSunburst() {
   }
 
   function applyFocus(focus, animated) {
-    centerTitle.text(focus.data.name || '乐器')
-    centerCount.text(`${focus.value || 0} 条`)
+    centerTitle.text(localizedText(focus.data.name || '乐器'))
+    centerCount.text(t('{0} 条', [focus.value || 0]))
     root.each(node => {
       node.target = {
         x0: Math.max(0, Math.min(1, (node.x0 - focus.x0) / Math.max(1e-6, focus.x1 - focus.x0))) * 2 * Math.PI,
@@ -754,7 +750,7 @@ function drawMiniDonut(svgEl, rawData, label) {
       .attr('text-anchor', 'middle')
       .style('font-size', '12px')
       .style('fill', '#a8a29e')
-      .text('暂无数据')
+      .text(localizedText('暂无数据'))
     return
   }
 
@@ -788,7 +784,7 @@ function drawMiniDonut(svgEl, rawData, label) {
     .attr('d', function(d) { return arc(this._current) })
     .on('mouseenter', (event, d) => {
       d3.select(event.currentTarget).transition().duration(160).attr('d', hoverArc)
-      showTooltip(event, `<strong>${label}：${d.data.name}</strong><br/>数量：${d.data.count}<br/>占比：${((d.data.count / Math.max(1, total)) * 100).toFixed(1)}%`)
+      showTooltip(event, t("<strong>{0}：{1}</strong><br/>数量：{2}<br/>占比：{3}%", [localize(label), localize(d.data.name), localize(d.data.count), localize(((d.data.count / Math.max(1, total)) * 100).toFixed(1))]))
     })
     .on('mousemove', moveTooltip)
     .on('mouseleave', (event) => {
@@ -813,7 +809,7 @@ function drawMiniDonut(svgEl, rawData, label) {
     .style('font-weight', 800)
     .style('fill', '#7c2d12')
     .style('opacity', 0)
-    .text(total)
+    .text(localizedText(total))
     .transition()
     .delay(420)
     .duration(520)
@@ -824,7 +820,7 @@ function drawMiniDonut(svgEl, rawData, label) {
     .style('font-size', '11px')
     .style('fill', '#7d7165')
     .style('opacity', 0)
-    .text(`${label}合计`)
+    .text(localizedText(t("{0}合计", [localize(label)])))
     .transition()
     .delay(480)
     .duration(520)
@@ -872,7 +868,7 @@ function drawMiniDonut(svgEl, rawData, label) {
     .style('stroke-width', 3.5)
     .style('stroke-linejoin', 'round')
     .style('opacity', 0)
-    .text(d => `${d.data.name} ${d.data.count}`)
+    .text(d => `${localize(d.data.name)} ${d.data.count}`)
     .transition()
     .delay(820)
     .duration(420)
@@ -896,9 +892,9 @@ function provinceColorScale(maxRecords) {
 
 function provinceTooltip(province) {
   const row = provinceStatsMap.value.get(province)
-  if (!row) return `<strong>${province}</strong><br/>乐器总数：0<br/>记录数：0<br/>主要器类：暂无`
-  const types = row.mainTypes.map(d => `${d.name}(${d.count})`).join('、') || '暂无'
-  return `<strong>${province}</strong><br/>乐器总数：${row.totalCount}<br/>记录数：${row.records}<br/>主要器类：${types}`
+  if (!row) return t("<strong>{0}</strong><br/>乐器总数：0<br/>记录数：0<br/>主要器类：暂无", [localize(province)])
+  const types = row.mainTypes.map(d => `${localize(d.name)} (${d.count})`).join(', ') || t('暂无')
+  return t("<strong>{0}</strong><br/>乐器总数：{1}<br/>记录数：{2}<br/>主要器类：{3}", [localize(province), localize(row.totalCount), localize(row.records), localize(types)])
 }
 
 
@@ -987,7 +983,7 @@ function drawSchematicProvinceMap() {
     .style('font-weight', d => provinceStatsMap.value.get(d.name) ? 700 : 400)
     .style('fill', d => provinceStatsMap.value.get(d.name) ? '#3f2a17' : '#a8a29e')
     .style('pointer-events', 'none')
-    .text(d => d.name)
+    .text(localizedText(d => d.name))
 
   drawMapLegend(svg, W, H, color, maxRecords)
 }
@@ -1002,9 +998,9 @@ function drawMapLegend(svg, W, H, color, maxRecords) {
     .attr('offset', d => `${d * 100}%`)
     .attr('stop-color', d => color(d * maxRecords))
   legend.append('rect').attr('width', 130).attr('height', 8).attr('fill', 'url(#provinceGradient)')
-  legend.append('text').attr('x', 0).attr('y', 22).style('font-size', '10px').style('fill', '#7d7165').text('0')
-  legend.append('text').attr('x', 130).attr('y', 22).attr('text-anchor', 'end').style('font-size', '10px').style('fill', '#7d7165').text(maxRecords)
-  legend.append('text').attr('x', 65).attr('y', -6).attr('text-anchor', 'middle').style('font-size', '11px').style('fill', '#57534e').text('记录数')
+  legend.append('text').attr('x', 0).attr('y', 22).style('font-size', '10px').style('fill', '#7d7165').text(localizedText('0'))
+  legend.append('text').attr('x', 130).attr('y', 22).attr('text-anchor', 'end').style('font-size', '10px').style('fill', '#7d7165').text(localizedText(maxRecords))
+  legend.append('text').attr('x', 65).attr('y', -6).attr('text-anchor', 'middle').style('font-size', '11px').style('fill', '#57534e').text(localizedText('记录数'))
 }
 
 function resetMapView() {
@@ -1038,7 +1034,7 @@ function drawHeatmap() {
     .attr('transform', d => `rotate(-42,${x(d) + x.bandwidth() / 2},-12)`)
     .style('font-size', '12px')
     .style('fill', '#57534e')
-    .text(d => d)
+    .text(localizedText(d => d))
 
   g.append('g').selectAll('text').data(provinces).join('text')
     .attr('x', -10)
@@ -1047,7 +1043,7 @@ function drawHeatmap() {
     .attr('text-anchor', 'end')
     .style('font-size', '12px')
     .style('fill', '#57534e')
-    .text(d => d)
+    .text(localizedText(d => d))
 
   const cell = g.selectAll('g.cell').data(cells).join('g')
     .attr('class', 'cell')
@@ -1055,8 +1051,8 @@ function drawHeatmap() {
     .style('cursor', d => d.count > 0 ? 'pointer' : 'default')
     .on('mouseenter', (event, d) => {
       showTooltip(event, d.count > 0
-        ? `<strong>${d.province} × ${d.type}</strong><br/>记录数：${d.count}<br/>单击查看检索结果`
-        : `<strong>${d.province} × ${d.type}</strong><br/>暂无记录`)
+        ? t("<strong>{0} × {1}</strong><br/>记录数：{2}<br/>单击查看检索结果", [localize(d.province), localize(d.type), localize(d.count)])
+        : t("<strong>{0} × {1}</strong><br/>暂无记录", [localize(d.province), localize(d.type)]))
     })
     .on('mousemove', moveTooltip)
     .on('mouseleave', hideTooltip)
@@ -1081,7 +1077,7 @@ function drawHeatmap() {
     .style('font-weight', 700)
     .style('fill', d => d.count > maxCount * 0.55 ? '#fff7ed' : '#7c2d12')
     .style('pointer-events', 'none')
-    .text(d => d.count)
+    .text(localizedText(d => d.count))
 
   const legendW = 180
   const legend = svg.append('g').attr('transform', `translate(${W - legendW - 30},${H - 24})`)
@@ -1091,8 +1087,8 @@ function drawHeatmap() {
     .attr('offset', d => `${d * 100}%`)
     .attr('stop-color', d => color(d * maxCount))
   legend.append('rect').attr('width', legendW).attr('height', 8).attr('fill', 'url(#heatmapGradient)')
-  legend.append('text').attr('x', 0).attr('y', -6).style('font-size', '10px').style('fill', '#7d7165').text('0')
-  legend.append('text').attr('x', legendW).attr('y', -6).attr('text-anchor', 'end').style('font-size', '10px').style('fill', '#7d7165').text(maxCount)
+  legend.append('text').attr('x', 0).attr('y', -6).style('font-size', '10px').style('fill', '#7d7165').text(localizedText('0'))
+  legend.append('text').attr('x', legendW).attr('y', -6).attr('text-anchor', 'end').style('font-size', '10px').style('fill', '#7d7165').text(localizedText(maxCount))
 }
 
 function drawStackedEvolution() {
@@ -1114,7 +1110,7 @@ function drawStackedEvolution() {
       .attr('y', H / 2)
       .attr('text-anchor', 'middle')
       .style('fill', '#a8a29e')
-      .text('暂无可绘制的时代演变数据')
+      .text(localizedText('暂无可绘制的时代演变数据'))
     return
   }
 
@@ -1142,7 +1138,7 @@ function drawStackedEvolution() {
 
   g.append('g')
     .attr('transform', `translate(0,${innerH})`)
-    .call(d3.axisBottom(x))
+    .call(d3.axisBottom(x).tickFormat(localize))
     .selectAll('text')
     .style('font-size', '12px')
     .style('fill', '#66584c')
@@ -1161,7 +1157,7 @@ function drawStackedEvolution() {
     .attr('y', -18)
     .style('font-size', '12px')
     .style('fill', '#66584c')
-    .text('数量')
+    .text(localizedText('数量'))
 
   const layer = g.append('g')
     .selectAll('path.layer')
@@ -1173,7 +1169,7 @@ function drawStackedEvolution() {
     .attr('fill-opacity', 0.76)
     .attr('stroke', d => d3.color(INSTRUMENT_COLOR[d.key] || '#b45309').darker(0.28))
     .attr('stroke-width', 1)
-    .on('mouseenter', (event, d) => showTooltip(event, `<strong>${d.key}</strong><br/>跨时代数量：${d3.sum(d, item => item.data[d.key] || 0)}`))
+    .on('mouseenter', (event, d) => showTooltip(event, t('<strong>{0}</strong><br/>跨时代数量：{1}', [d.key, d3.sum(d, item => item.data[d.key] || 0)])))
     .on('mousemove', moveTooltip)
     .on('mouseleave', hideTooltip)
 
@@ -1195,7 +1191,7 @@ function drawStackedEvolution() {
     .attr('fill', '#7b684f')
     .attr('stroke', '#fffaf3')
     .attr('stroke-width', 1)
-    .on('mouseenter', (event, d) => showTooltip(event, `<strong>${d.era}</strong><br/>总数量：${d.total}`))
+    .on('mouseenter', (event, d) => showTooltip(event, t("<strong>{0}</strong><br/>总数量：{1}", [localize(d.era), localize(d.total)])))
     .on('mousemove', moveTooltip)
     .on('mouseleave', hideTooltip)
 
@@ -1219,9 +1215,9 @@ function drawStackedEvolution() {
         .filter(item => item.value > 0)
         .sort((a, b) => b.value - a.value)
         .slice(0, 6)
-        .map(item => `${item.type}：${item.value}`)
+        .map(item => `${localize(item.type)}: ${item.value}`)
         .join('<br/>')
-      showTooltip(event, `<strong>${nearest.era}</strong><br/>总数量：${nearest.total}<br/>${detail || '暂无类型记录'}`)
+      showTooltip(event, t('<strong>{0}</strong><br/>总数量：{1}<br/>{2}', [nearest.era, nearest.total, detail || t('暂无类型记录')]))
     })
     .on('mouseleave', () => {
       focusLine.attr('opacity', 0)
@@ -1242,7 +1238,7 @@ function drawStackedEvolution() {
         .attr('y', 10)
         .style('font-size', '12px')
         .style('fill', '#57534e')
-        .text(d => d)
+        .text(localizedText(d => d))
     })
 }
 
@@ -1280,7 +1276,7 @@ function buildClusteredInstanceGraph() {
   const artifacts = store.artifacts
     .map((item, index) => {
       const type = getArtifactPrimaryType(item)
-      const name = item.器物名称 || item.record_id || `器物${index + 1}`
+      const name = item.器物名称 || item.record_id || t("器物{0}", [localize(index + 1)])
       const province = getArtifactProvince(item)
       const era = normalizeEraGroup(item.时代)
       const location = compactCoLocation(item.出土地点)
@@ -1403,7 +1399,7 @@ function drawCooccurrence() {
       .attr('y', H / 2)
       .attr('text-anchor', 'middle')
       .style('fill', '#a8a29e')
-      .text('暂无可识别的共现关系')
+      .text(localizedText('暂无可识别的共现关系'))
     return
   }
 
@@ -1471,7 +1467,7 @@ function drawCooccurrence() {
       .style('paint-order', 'stroke')
       .style('stroke', 'rgba(255,255,255,0.95)')
       .style('stroke-width', 4)
-      .text(cluster.title)
+      .text(localizedText(cluster.title))
 
     clusterLayer.append('text')
       .attr('x', center.x)
@@ -1482,7 +1478,7 @@ function drawCooccurrence() {
       .style('paint-order', 'stroke')
       .style('stroke', 'rgba(255,255,255,0.95)')
       .style('stroke-width', 3)
-      .text(`${cluster.count} 组共现 · 展示 ${cluster.nodeCount} 个实例`)
+      .text(localizedText(t("{0} 组共现 · 展示 {1} 个实例", [localize(cluster.count), localize(cluster.nodeCount)])))
   })
 
   const link = g.append('g')
@@ -1493,7 +1489,7 @@ function drawCooccurrence() {
     .attr('stroke', d => d.clusterKey === selectedKey ? '#7c2d12' : '#cfc2b4')
     .attr('stroke-opacity', d => d.clusterKey === selectedKey ? 0.78 : 0.46)
     .style('cursor', 'pointer')
-    .on('mouseenter', (event, d) => showTooltip(event, `<strong>${d.clusterTitle}</strong><br/>地点：${d.location}<br/>时代：${d.era}`))
+    .on('mouseenter', (event, d) => showTooltip(event, t("<strong>{0}</strong><br/>地点：{1}<br/>时代：{2}", [localize(d.clusterTitle), localize(d.location), localize(d.era)])))
     .on('mousemove', moveTooltip)
     .on('mouseleave', hideTooltip)
     .on('click', (event, d) => {
@@ -1507,7 +1503,7 @@ function drawCooccurrence() {
     .join('g')
     .attr('class', 'node')
     .style('cursor', 'pointer')
-    .on('mouseenter', (event, d) => showTooltip(event, `<strong>${d.name}</strong><br/>器类：${d.type}<br/>时代：${d.era}<br/>地点：${d.location}`))
+    .on('mouseenter', (event, d) => showTooltip(event, t("<strong>{0}</strong><br/>器类：{1}<br/>时代：{2}<br/>地点：{3}", [localize(d.name), localize(d.type), localize(d.era), localize(d.location)])))
     .on('mousemove', moveTooltip)
     .on('mouseleave', hideTooltip)
     .on('click', (event, d) => viewArtifact(d.originalId))
@@ -1529,7 +1525,7 @@ function drawCooccurrence() {
     .style('stroke', 'rgba(255,255,255,0.96)')
     .style('stroke-width', 4)
     .style('stroke-linejoin', 'round')
-    .text(d => d.shortName)
+    .text(localizedText(d => d.shortName))
 
   coSimulation = d3.forceSimulation(nodes)
     .force('link', d3.forceLink(links).id(d => d.id).distance(40).strength(0.72))
@@ -1566,7 +1562,7 @@ function drawCooccurrence() {
     .attr('y', H - 18)
     .style('font-size', '12px')
     .style('fill', '#7d7165')
-    .text('仅展示 Top 7 高频组合；圆形簇大小代表共现规模，节点为具体器物实例。')
+    .text(localizedText('仅展示 Top 7 高频组合；圆形簇大小代表共现规模，节点为具体器物实例。'))
 }
 
 
@@ -1606,6 +1602,10 @@ onBeforeUnmount(() => {
 })
 
 watch(() => store.artifacts, redrawAll, { deep: true })
+watch(locale, () => {
+  hideTooltip()
+  redrawAll()
+})
 </script>
 
 <style scoped>

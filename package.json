@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:i18n": "node tests/i18n.mjs"
   },
   "dependencies": {
     "d3": "^7.9.0",

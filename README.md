@@ -4,6 +4,12 @@ A course team project that structures archaeological descriptions through BERT-b
 
 [English](README.md) | [한국어](README.ko.md) | [简体中文](README.zh-CN.md)
 
+## Website languages
+
+Choose 中文, English, or 한국어 in the header. The selection persists across navigation and reloads; Chinese remains the default. Navigation, filters, detail labels, chart labels/tooltips, instrument classifications, common periods, and province names are localized. Search accepts English and Korean instrument, period-group, province, and decoration names alongside the original Chinese text (for example, `Shanghai Yongzhong` or `상하이 용종`).
+
+Artifact proper names, archaeological narratives, citations, and source annotations retain the original Chinese; unrecognized or detailed period descriptions also retain their source text. The original dataset and filter identifiers are unchanged. Translation entries live in `src/i18n/messages.tsv` (Chinese source, English, Korean; tab-separated). Run `npm run test:i18n` to check catalog coverage, placeholders, original text preservation, and multilingual search, and `npm run build` for a production build.
+
 ## Project Overview
 
 Problem: descriptions of traditional Chinese musical instrument artifacts are scattered across documentary entries, making it difficult to find artifacts by their attributes and examine their relationships together. The project turns these descriptions into connected, structured data.
