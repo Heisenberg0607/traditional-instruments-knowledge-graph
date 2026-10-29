@@ -2,6 +2,7 @@ import { ref, watch } from 'vue'
 import messageTable from './messages.tsv?raw'
 import { englishRecordLabel } from './recordLabels'
 import englishAnnotations from './english-annotations.json'
+import koreanContent from './korean-content.json'
 
 export const messages = Object.fromEntries(messageTable.trimEnd().split(/\r?\n/).filter(Boolean).map(line => {
   const [zh, en, ko] = line.split('\t')
@@ -27,6 +28,7 @@ export function setLocale(value) {
 }
 
 export function t(source, values = []) {
+  if (locale.value === 'ko' && koreanContent.vocabulary[source]) return `${koreanContent.vocabulary[source]} (${source})`
   const translated = messages[source]?.[locale.value] || source
   return translated.replace(/\{(\d+)\}/g, (_, index) => localize(values[Number(index)] ?? ''))
 }
@@ -68,14 +70,14 @@ export function vocabularySearchText(values) {
 // Field-aware formatting avoids translating proper names as generic vocabulary.
 // The raw value remains the identity used for filters, grouping, and relations.
 export function recordText(value, kind) {
-  if (locale.value !== 'en' || typeof value !== 'string') return localize(value)
-  const translated = englishRecordLabel(value, kind)
+  if (locale.value === 'zh-CN' || typeof value !== 'string') return localize(value)
+  const translated = locale.value === 'ko' ? koreanContent[kind]?.[value] || value : englishRecordLabel(value, kind)
   return translated !== value ? `${translated} (${value})` : localize(value)
 }
 
 export function periodText(value) {
-  if (locale.value !== 'en' || typeof value !== 'string') return localize(value)
-  const translated = englishAnnotations.period[value]
+  if (locale.value === 'zh-CN' || typeof value !== 'string') return localize(value)
+  const translated = (locale.value === 'ko' ? koreanContent : englishAnnotations).period[value]
   return translated && translated !== value ? `${translated} (${value})` : localize(value)
 }
 
@@ -83,9 +85,9 @@ export function entityText(entity) {
   if (!entity) return ''
   if (entity.label === '出土地点') return recordText(entity.text, 'site')
   if (entity.label === '机构') return recordText(entity.text, 'institution')
-  if (locale.value !== 'en') return localize(entity.text)
+  if (locale.value === 'zh-CN') return localize(entity.text)
   const kind = { 乐器部件: 'part', 数据属性: 'attribute', 纹饰: 'decoration' }[entity.label]
-  const translated = englishAnnotations[kind]?.[entity.text]
+  const translated = (locale.value === 'ko' ? koreanContent : englishAnnotations)[kind]?.[entity.text]
   return translated && translated !== entity.text ? `${translated} (${entity.text})` : localize(entity.text)
 }
 

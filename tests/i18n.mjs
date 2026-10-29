@@ -48,7 +48,7 @@ try {
   for (const lang of ['en', 'ko', 'zh-CN']) {
     setLocale(lang)
     assert.equal(locale.value, lang)
-    assert.equal(localize('甬钟'), lang === 'en' ? 'Yongzhong bells' : lang === 'ko' ? '용종(甬鐘)' : '甬钟')
+    assert.equal(localize('甬钟'), lang === 'en' ? 'Yongzhong bells' : lang === 'ko' ? '용종 (甬钟)' : '甬钟')
     assert.equal(localize('青州苏埠屯8号墓编铙'), '青州苏埠屯8号墓编铙')
     assert.equal(localize(1080), 1080)
     assert.ok(!t('找到 {0} 条结果', [12]).includes('{0}'))
@@ -111,8 +111,8 @@ try {
       }
     }
   }
-  // Korean and Chinese keep exactly the earlier display behavior.
-  for (const lang of ['ko', 'zh-CN']) {
+  // The Chinese display and original source records stay unchanged.
+  for (const lang of ['zh-CN']) {
     setLocale(lang)
     for (const [kind, entries] of Object.entries(catalog)) {
       for (const source of Object.keys(entries)) assert.equal(recordText(source, kind), localize(source))
@@ -122,6 +122,46 @@ try {
       for (const entity of artifact.标注部分?.entities || []) {
         assert.equal(entityText(entity), localize(entity.text))
       }
+    }
+  }
+  setLocale('ko')
+  const korean = JSON.parse(fs.readFileSync(new URL('../src/i18n/korean-content.json', import.meta.url), 'utf8'))
+  assert.equal(recordText('沂水刘家店子钲', 'artifact'), '이수이 류자뎬쯔 정 (沂水刘家店子钲)')
+  assert.equal(recordText('山东省文物考古研究所', 'institution'), '산둥성 문물고고연구소 (山东省文物考古研究所)')
+  assert.equal(recordText('沂水县院东头乡', 'site'), '이수이현 위안둥터우향 (沂水县院东头乡)')
+  assert.equal(recordText('安阳大司空村 288 号墓铙', 'artifact'), '안양 다쓰쿵촌 288호묘 요 (安阳大司空村 288 号墓铙)')
+  assert.equal(entityText({ label: '乐器部件', text: '甬' }), '종의 자루 (甬)')
+  assert.equal(entityText({ label: '乐器部件', text: '正鼓' }), '중앙 타격부 (正鼓)')
+  assert.equal(entityText({ label: '数据属性', text: '合瓦形' }), '기와 두 장을 맞댄 형태 (合瓦形)')
+  assert.equal(entityText({ label: '数据属性', text: '重量 2.5' }), '무게 2.5 (重量 2.5)')
+  assert.equal(periodText('商代殷墟晚期'), '상나라 은허 말기 (商代殷墟晚期)')
+  assert.equal(periodText('清乾隆二十六年'), '청나라 건륭 26년 (清乾隆二十六年)')
+  assert.equal(localize('山东'), '산둥 (山东)')
+  assert.equal(entityText({ label: '数据属性', text: '3.7' }), '3.7')
+  assert.equal(recordText('未知', 'institution'), '미상')
+  const { chineseToHangul } = await import('../scripts/pinyin-hangul.mjs')
+  assert.equal(chineseToHangul('北京'), '베이징')
+  assert.equal(chineseToHangul('上海'), '상하이')
+  assert.equal(chineseToHangul('刘家店子'), '류자뎬쯔')
+  for (const [kind, entries] of Object.entries(korean)) for (const [source, label] of Object.entries(entries)) {
+    if (label !== source) assert.ok(!/\p{Script=Han}/u.test(label), `Untranslated Korean label: ${source}`)
+    assert.ok(!/\[[a-z]+\]/i.test(label), `Unresolved Korean word: ${source}`)
+    if (['artifact', 'institution', 'site'].includes(kind) && label !== source) assert.ok(recordText(source, kind).endsWith(` (${source})`))
+    if (kind === 'period') assert.ok(periodText(source).endsWith(` (${source})`))
+  }
+  for (const artifact of artifacts) {
+    for (const [field, kind] of [['器物名称', 'artifact'], ['机构', 'institution'], ['原藏机构', 'institution'], ['出土地点', 'site']]) {
+      if (artifact[field] && /\p{Script=Han}/u.test(artifact[field])) assert.ok(Object.hasOwn(korean[kind], artifact[field]))
+    }
+    const entities = [...(artifact.标注部分?.entities || []), ...(artifact.标注部分?.relations || []).flatMap(r => [r.subject, r.object])]
+    for (const entity of entities) {
+      const kind = { 乐器部件: 'part', 数据属性: 'attribute', 纹饰: 'decoration' }[entity.label]
+      if (!kind) continue
+      assert.ok(Object.hasOwn(korean[kind], entity.text), `Missing Korean annotation: ${entity.text}`)
+      if (/\p{Script=Han}/u.test(entity.text)) assert.ok(entityText(entity).endsWith(` (${entity.text})`))
+      else assert.equal(entityText(entity), entity.text)
+      // Decimal measurements must remain intact even in mixed text labels.
+      for (const decimal of entity.text.match(/\d+\.\d+/g) || []) assert.ok(korean[kind][entity.text].includes(decimal), `Changed decimal: ${entity.text}`)
     }
   }
   assert.equal(JSON.stringify(artifacts), before)
@@ -141,6 +181,12 @@ try {
   assert.ok(search('Yuandongtou Township').includes('shandong_0025'))
   assert.ok(search('tile-pair').includes('shandong_0017'))
   assert.ok(search('Yinxu').length > 0)
+  assert.ok(search('이수이 류자뎬쯔 정').includes('shandong_0025'))
+  assert.ok(search('산둥성 문물고고연구소').includes('shandong_0025'))
+  assert.ok(search('위안둥터우향').includes('shandong_0025'))
+  assert.ok(search('종의 자루').includes('shandong_0017'))
+  assert.ok(search('기와 두 장').includes('shandong_0017'))
+  assert.ok(search('은허 말기').length > 0)
   for (const name of [...data.INSTRUMENT_LEAVES, ...data.ERA_ORDER, ...data.PROVINCE_NAMES]) assert.ok(messages[name], `Missing vocabulary: ${name}`)
   assert.equal(artifacts.length, 1080)
   console.log(`PASS: ${Object.keys(messages).length} messages, all UI keys, vocabulary, interpolation, and multilingual search across 1,080 original records`)

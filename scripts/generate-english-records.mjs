@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import { pinyin } from 'pinyin-pro'
+import { pathToFileURL } from 'node:url'
 
 // Build-time transliteration keeps the pronunciation dictionary out of the
 // browser bundle. Edit these overrides when a historical name needs review.
@@ -9,9 +10,9 @@ const romanize = text => {
   return result.charAt(0).toUpperCase() + result.slice(1)
 }
 const places = `北京 天津 河北 山西 内蒙古 辽宁 吉林 黑龙江 上海 江苏 浙江 安徽 福建 江西 山东 河南 湖北 湖南 广东 广西 海南 重庆 四川 贵州 云南 西藏 陕西 甘肃 青海 宁夏 新疆 香港 澳门 台湾 中国 青州 沂源 惠民 海阳 济南 烟台 长岛 临沂 滕州 青岛 阳信 诸城 曲阜 郯城 淄博 莒南 章丘 沂水 临淄 长清 龙口 苍山 牟平 长沙 宁乡 益阳 岳阳 株洲 衡阳 衡南 耒阳 桃江 永州 衡山 平江 湘西 石门 慈利 南岳 张家界 永定 凤凰 临湘 呼和浩特 喀喇沁 奈曼 巴林左 赤峰 土默特右 邯郸 承德 荆州 武昌 通山 孝感 通城 武穴 随州 武汉 恩施 鄂州 长阳 秭归 崇阳 涸水 咸丰 利川 五峰 巴东 建始 鹤峰 来凤 宜城 宣恩 枝城 襄阳 钟祥 沙市 襄樊 武当山 西安 宝鸡 扶风 眉县 咸阳 铜川 礼泉 扶风 洛阳 郑州 新郑 辉县 三门峡 平顶山 安阳 南京 镇江 徐州 苏州 扬州 邳州 东海 溧阳 吴江 成都 广汉 彭县 茂县 酉阳 涪陵 绵竹 德阳 万县 重庆 周原 齐鲁 邺城 京都 日本`.split(/\s+/)
-const geographic = Object.fromEntries(places.map(name => [name, romanize(name)]))
+export const geographic = Object.fromEntries(places.map(name => [name, romanize(name)]))
 Object.assign(geographic, { 陕西: 'Shaanxi', 山西: 'Shanxi', 中国: 'China', 内蒙古: 'Inner Mongolia', 香港: 'Hong Kong', 澳门: 'Macao', 西藏: 'Tibet', 日本: 'Japan', 京都: 'Kyoto' })
-const properNames = {
+export const properNames = {
   曾侯乙: 'Zeng Hou Yi', 曾侯: 'Zeng Hou', 曾伯: 'Zeng Bo', 单伯: 'Shan Bo', 召伯: 'Shao Bo', 刘家店子: 'Liujiadianzi', 苏埠屯: 'Subutun',
   院东头: 'Yuandongtou', 嘴子前: 'Zuiziqian', 西古现: 'Xiguxian', 小峨眉山: 'Xiao Emeishan',
   齐国: 'Qi State', 孔子: 'Confucius', 孔庙: 'Confucian Temple', 故宫: 'Palace',
@@ -22,7 +23,7 @@ const properNames = {
   土家族: 'Tujia', 苗族: 'Miao', 羌族: 'Qiang', 藏族: 'Tibetan', 自治州: 'Autonomous Prefecture', 自治县: 'Autonomous County',
   省: 'Province', 市: 'City', 县: 'County', 区: 'District', 旗: 'Banner', 乡: 'Township', 镇: 'Town', 村: 'Village', 岛: 'Island'
 }
-const instruments = {
+export const instruments = {
   编钟: 'Chime Bells', 编铙: 'Nao Bell Set', 编镈: 'Bo Bell Set', 编磬: 'Chime Stone Set',
   甬钟: 'Yongzhong Bell', 钮钟: 'Niuzhong Bell', 铃钟: 'Ling Bell', 梵钟: 'Temple Bell',
   扁钟: 'Flattened Bell', 圆钟: 'Round Bell', 镈于: 'Chunyu Bell', 錞于: 'Chunyu Bell',
@@ -44,7 +45,7 @@ const instruments = {
   乳钉纹: 'Boss Motif', 乳钉: 'Boss', 螺旋纹: 'Spiral Motif',
   仿木: 'Imitation Wood', 镂空: 'Openwork', 错金: 'Gold-Inlaid', 错银: 'Silver-Inlaid'
 }
-const context = {
+export const context = {
   遗址博物馆: 'Site Museum', 文物考古研究所: 'Institute of Cultural Relics and Archaeology',
   文物保护研究所: 'Institute for Cultural Relics Conservation', 文物研究所: 'Institute of Cultural Relics',
   考古研究所: 'Institute of Archaeology', 文物管理委员会: 'Cultural Relics Administration Committee',
@@ -117,6 +118,7 @@ function translate(source, kind) {
   return tokens.join(' ').replace(/\s+/g, ' ').replace(/\s+([,;.)])/g, '$1').replace(/\(\s+/g, '(').trim()
 }
 
+export function generateEnglishRecords() {
 const catalog = { artifact: {}, institution: {}, site: {} }
 function add(value, kind) {
   if (typeof value === 'string' && value.trim() && /\p{Script=Han}/u.test(value)) catalog[kind][value] = translate(value, kind)
@@ -141,3 +143,6 @@ for (const artifact of artifacts) {
 for (const kind of Object.keys(catalog)) catalog[kind] = Object.fromEntries(Object.entries(catalog[kind]).sort(([a], [b]) => a.localeCompare(b, 'zh')))
 fs.writeFileSync(new URL('../src/i18n/english-records.json', import.meta.url), JSON.stringify(catalog, null, 2) + '\n')
 console.log('Generated English record labels:', Object.fromEntries(Object.entries(catalog).map(([kind, values]) => [kind, Object.keys(values).length])))
+}
+
+if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) generateEnglishRecords()
