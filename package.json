@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test:i18n": "node tests/i18n.mjs"
+    "test:i18n": "node tests/i18n.mjs",
+    "generate:english-records": "node scripts/generate-english-records.mjs"
   },
   "dependencies": {
     "d3": "^7.9.0",
@@ -17,6 +18,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
     "autoprefixer": "^10.4.19",
+    "pinyin-pro": "^3.29.5",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.17",
     "vite": "^5.2.0"

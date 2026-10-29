@@ -1,5 +1,6 @@
 import { ref, watch } from 'vue'
 import messageTable from './messages.tsv?raw'
+import { englishRecordLabel } from './recordLabels'
 
 export const messages = Object.fromEntries(messageTable.trimEnd().split(/\r?\n/).filter(Boolean).map(line => {
   const [zh, en, ko] = line.split('\t')
@@ -63,8 +64,16 @@ export function vocabularySearchText(values) {
   }).filter(Boolean).join(' ').toLowerCase()
 }
 
+// Field-aware formatting avoids translating proper names as generic vocabulary.
+// The raw value remains the identity used for filters, grouping, and relations.
+export function recordText(value, kind) {
+  if (locale.value !== 'en' || typeof value !== 'string') return localize(value)
+  const translated = englishRecordLabel(value, kind)
+  return translated !== value ? `${translated} (${value})` : localize(value)
+}
+
 export function useI18n() {
-  return { locale, setLocale, t, localize, localizedText }
+  return { locale, setLocale, t, localize, localizedText, recordText }
 }
 
 watch(locale, value => {

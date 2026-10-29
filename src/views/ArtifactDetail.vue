@@ -61,7 +61,7 @@
                 class="rounded-full px-3 py-1 text-sm"
                 :class="getEntityPillClass(group.label)"
               >
-                {{ localize(entity.text) }}
+                {{ entity.label === '出土地点' ? recordText(entity.text, 'site') : localize(entity.text) }}
               </span>
             </div>
           </div>
@@ -81,7 +81,7 @@
             <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="rounded bg-green-100 px-3 py-1 text-sm font-medium text-green-800">
-                  {{ localize(relation.subject.text) }}
+                  {{ relation.subject.label === '出土地点' ? recordText(relation.subject.text, 'site') : localize(relation.subject.text) }}
                 </span>
                 <span class="text-stone-400">→</span>
                 <span class="rounded px-3 py-1 text-sm font-medium" :class="getRelationClass(relation.label)">
@@ -89,7 +89,7 @@
                 </span>
                 <span class="text-stone-400">→</span>
                 <span class="rounded bg-orange-100 px-3 py-1 text-sm font-medium text-orange-800">
-                  {{ localize(relation.object.text) }}
+                  {{ relation.object.label === '出土地点' ? recordText(relation.object.text, 'site') : localize(relation.object.text) }}
                 </span>
               </div>
               <div class="text-sm text-stone-500 md:ml-4">{{ t("置信度: {0}%", [(relation.confidence * 100).toFixed(1)]) }}</div>
@@ -111,7 +111,7 @@
             @click="viewSimilar(item.artifact.record_id)"
           >
             <h4 class="mb-2 font-bold text-amber-900">
-              {{ localize(item.artifact.器物名称 || '未命名文物') }}
+              {{ recordText(item.artifact.器物名称 || '未命名文物', 'artifact') }}
             </h4>
             <div class="mb-3 space-y-1 text-sm text-stone-600">
               <p>{{ localize(item.artifact.乐器类型 || '未知类型') }} | {{ localize(item.artifact.时代 || '未知时代') }}</p>
@@ -142,7 +142,7 @@
 
 <script setup>
 import { useI18n } from '../i18n'
-const { t, localize, locale } = useI18n()
+const { t, localize, locale, recordText } = useI18n()
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useArtifactStore } from '../stores/artifactStore'
@@ -159,16 +159,16 @@ const basicInfo = computed(() => {
   if (!artifact.value) return []
   return [
     { label: t("记录编号"), value: artifact.value.record_id },
-    { label: t("器物名称"), value: artifact.value.器物名称 },
+    { label: t("器物名称"), value: recordText(artifact.value.器物名称, 'artifact') },
     { label: t("乐器类型"), value: artifact.value.乐器类型 },
     { label: t("数量"), value: artifact.value.数量 },
     { label: t("时代"), value: artifact.value.时代 },
-    { label: t("收藏机构"), value: artifact.value.机构 },
+    { label: t("收藏机构"), value: recordText(artifact.value.机构, 'institution') },
     { label: t("文物编号"), value: artifact.value.编号 },
     { label: t("出土时间"), value: artifact.value.出土时间 },
     { label: t("移交时间"), value: artifact.value.移交时间 },
-    { label: t("出土地点"), value: artifact.value.出土地点 },
-    { label: t("原藏机构"), value: artifact.value.原藏机构 }
+    { label: t("出土地点"), value: recordText(artifact.value.出土地点, 'site') },
+    { label: t("原藏机构"), value: recordText(artifact.value.原藏机构, 'institution') }
   ]
 })
 

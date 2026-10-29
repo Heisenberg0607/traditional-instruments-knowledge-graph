@@ -108,7 +108,7 @@
             class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-6 cursor-pointer"
             @click="viewDetail(artifact.record_id)"
           >
-            <h4 class="text-xl font-bold text-amber-900 mb-2">{{ localize(artifact.器物名称 || '未命名文物') }}</h4>
+            <h4 class="text-xl font-bold text-amber-900 mb-2">{{ recordText(artifact.器物名称 || '未命名文物', 'artifact') }}</h4>
             <div class="space-y-2 text-sm">
               <p class="text-stone-600">
                 <span class="font-medium">{{ t("类型：") }}</span>{{ localize(artifact.乐器类型 || '未知') }}
@@ -117,7 +117,7 @@
                 <span class="font-medium">{{ t("时代：") }}</span>{{ localize(artifact.时代 || '未知') }}
               </p>
               <p class="text-stone-600">
-                <span class="font-medium">{{ t("机构：") }}</span>{{ localize(artifact.机构 || '未知') }}
+                <span class="font-medium">{{ t("机构：") }}</span>{{ recordText(artifact.机构 || '未知', 'institution') }}
               </p>
             </div>
             
@@ -129,7 +129,7 @@
                 class="px-2 py-1 text-xs rounded"
                 :class="getEntityClass(entity.label)"
               >
-                {{ localize(entity.text) }}
+                {{ entity.label === '出土地点' ? recordText(entity.text, 'site') : localize(entity.text) }}
               </span>
               <span v-if="artifact.标注部分.entities.length > 5" class="text-xs text-stone-500">
                 +{{ localize(artifact.标注部分.entities.length - 5) }}
@@ -159,7 +159,7 @@
 
 <script setup>
 import { useI18n } from '../i18n'
-const { t, localize } = useI18n()
+const { t, localize, recordText } = useI18n()
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useArtifactStore } from '../stores/artifactStore'

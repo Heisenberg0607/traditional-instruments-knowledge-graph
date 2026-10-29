@@ -7,7 +7,7 @@ import { baseParse } from '@vue/compiler-dom'
 // Exercise the actual Vite-loaded modules, including the raw translation table.
 const server = await createServer({ server: { middlewareMode: true }, appType: 'custom' })
 try {
-  const { messages, locale, setLocale, t, localize, localizedText } = await server.ssrLoadModule('/src/i18n/index.js')
+  const { messages, locale, setLocale, t, localize, localizedText, recordText } = await server.ssrLoadModule('/src/i18n/index.js')
   const data = await server.ssrLoadModule('/src/utils/statisticsData.js')
   const artifacts = JSON.parse(fs.readFileSync(new URL('../src/data/artifacts.json', import.meta.url), 'utf8'))
   const placeholders = s => [...s.matchAll(/\{\d+\}/g)].map(m => m[0]).sort()
@@ -61,13 +61,49 @@ try {
   setLocale('invalid')
   assert.equal(locale.value, 'en')
 
+  assert.equal(recordText('沂水刘家店子钲', 'artifact'), 'Yishui Liujiadianzi Zheng Bell (沂水刘家店子钲)')
+  assert.equal(recordText('青州苏埠屯8号墓编铙', 'artifact'), 'Qingzhou Subutun Tomb No. 8 Nao Bell Set (青州苏埠屯8号墓编铙)')
+  assert.equal(recordText('山东省文物考古研究所', 'institution'), 'Shandong Provincial Institute of Cultural Relics and Archaeology (山东省文物考古研究所)')
+  assert.equal(recordText('沂水县院东头乡', 'site'), 'Yishui County Yuandongtou Township (沂水县院东头乡)')
+  assert.equal(recordText('钟祥市博物馆', 'institution'), 'Zhongxiang Municipal Museum (钟祥市博物馆)')
+  assert.equal(recordText('未知', 'institution'), 'Unknown')
+  assert.equal(recordText('', 'site'), '')
+  const catalog = JSON.parse(fs.readFileSync(new URL('../src/i18n/english-records.json', import.meta.url), 'utf8'))
+  const before = JSON.stringify(artifacts)
+  for (const artifact of artifacts) {
+    for (const [field, kind] of [['器物名称', 'artifact'], ['机构', 'institution'], ['原藏机构', 'institution'], ['出土地点', 'site']]) {
+      const source = artifact[field]
+      if (!source || !/\p{Script=Han}/u.test(source)) continue
+      assert.ok(Object.hasOwn(catalog[kind], source), `Missing English record: ${field}: ${source}`)
+      const result = recordText(source, kind)
+      if (catalog[kind][source] !== source) {
+        assert.ok(result.endsWith(` (${source})`), `Original lost: ${source}`)
+        assert.ok(!/\p{Script=Han}/u.test(catalog[kind][source]), `Unconverted Han: ${source}`)
+      }
+    }
+  }
+  // Korean and Chinese keep exactly the earlier display behavior.
+  for (const lang of ['ko', 'zh-CN']) {
+    setLocale(lang)
+    for (const [kind, entries] of Object.entries(catalog)) {
+      for (const source of Object.keys(entries)) assert.equal(recordText(source, kind), localize(source))
+    }
+  }
+  assert.equal(JSON.stringify(artifacts), before)
+  setLocale('en')
+
   const search = query => artifacts.filter(a => query.toLowerCase().split(/\s+/).every(word => data.searchArtifactText(a).includes(word))).map(a => a.record_id)
   // Multilingual aliases resolve to the same underlying record IDs.
-  assert.deepEqual(search('Yongzhong'), search('용종'))
+  const englishYongzhong = new Set(search('Yongzhong'))
+  assert.ok(search('용종').every(id => englishYongzhong.has(id)))
   assert.ok(search('Yongzhong').length > 0)
-  assert.deepEqual(search('Shanghai'), search('상하이'))
+  const englishShanghai = new Set(search('Shanghai'))
+  assert.ok(search('상하이').every(id => englishShanghai.has(id)))
   assert.ok(search('Shanghai Yongzhong').length > 0)
   assert.ok(search('서주 용종').length > 0)
+  assert.ok(search('Yishui Liujiadianzi Zheng Bell').includes('shandong_0025'))
+  assert.ok(search('Shandong Provincial Institute of Cultural Relics and Archaeology').includes('shandong_0025'))
+  assert.ok(search('Yuandongtou Township').includes('shandong_0025'))
   for (const name of [...data.INSTRUMENT_LEAVES, ...data.ERA_ORDER, ...data.PROVINCE_NAMES]) assert.ok(messages[name], `Missing vocabulary: ${name}`)
   assert.equal(artifacts.length, 1080)
   console.log(`PASS: ${Object.keys(messages).length} messages, all UI keys, vocabulary, interpolation, and multilingual search across 1,080 original records`)

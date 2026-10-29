@@ -66,7 +66,7 @@
                 <h5 class="panel-subtitle">{{ t("具体案例") }}</h5>
                 <div v-if="selectedTypeDetail.cases.length" class="space-y-2">
                   <div v-for="item in selectedTypeDetail.cases" :key="item.record_id" class="case-row" @click="viewArtifact(item.record_id)">
-                    <strong>{{ localize(item.器物名称 || item.record_id) }}</strong>
+                    <strong>{{ recordText(item.器物名称 || item.record_id, 'artifact') }}</strong>
                     <span>{{ localize(getArtifactProvince(item)) }} · {{ localize(item.时代 || '时代未详') }}</span>
                   </div>
                 </div>
@@ -100,8 +100,8 @@
                   <div class="mini-stat"><span>{{ localize(activeProvinceStats.typeCount) }}</span><em>{{ t("器类数") }}</em></div>
                 </div>
 
-                <InfoList title="博物馆 / 保存机构" :items="activeProvinceStats.institutions" mode="single" :limit="3" />
-                <InfoList title="主要出土地点" :items="activeProvinceStats.locations" mode="single" :limit="3" />
+                <InfoList title="博物馆 / 保存机构" kind="institution" :items="activeProvinceStats.institutions" mode="single" :limit="3" />
+                <InfoList title="主要出土地点" kind="site" :items="activeProvinceStats.locations" mode="single" :limit="3" />
                 <InfoList title="器类构成" :items="activeProvinceStats.mainTypes" mode="grid" :limit="3" />
                 <InfoList title="时代分布" :items="activeProvinceStats.eraDistribution" mode="grid" :limit="3" />
               </template>
@@ -158,9 +158,9 @@
                     :key="index"
                     class="example-card"
                   >
-                    <strong>{{ localize(example.location) }}</strong>
+                    <strong>{{ recordText(example.location, 'site') }}</strong>
                     <span>{{ localize(example.era || '时代未详') }}</span>
-                    <p>{{ localize(example.artifacts.slice(0, 4).join('、')) }}</p>
+                    <p>{{ example.artifacts.slice(0, 4).map(name => recordText(name, 'artifact')).join(locale === 'en' ? '; ' : '、') }}</p>
                   </div>
                 </div>
               </div>
@@ -196,7 +196,7 @@
 
 <script setup>
 import { useI18n } from '../i18n'
-const { t, localize, locale, localizedText } = useI18n()
+const { t, localize, locale, localizedText, recordText } = useI18n()
 import { computed, defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useArtifactStore } from '../stores/artifactStore'
@@ -222,6 +222,7 @@ const InfoList = defineComponent({
   name: 'InfoList',
   props: {
     title: { type: String, required: true },
+    kind: { type: String, default: '' },
     items: { type: Array, default: () => [] },
     mode: { type: String, default: 'single' },
     limit: { type: Number, default: 3 }
@@ -352,13 +353,13 @@ const InfoList = defineComponent({
         ]),
         props.items.length
           ? h('div', { style: bodyStyle }, visible.map(item =>
-              h('div', { style: chipStyle.value, title: `${localize(item.name)}: ${item.count}` }, [
+              h('div', { style: chipStyle.value, title: `${props.kind ? recordText(item.name, props.kind) : localize(item.name)}: ${item.count}` }, [
                 h('span', {
                   style: {
                     color: '#1c1917',
                     wordBreak: 'break-word'
                   }
-                }, localize(item.name)),
+                }, props.kind ? recordText(item.name, props.kind) : localize(item.name)),
                 h('em', {
                   style: {
                     fontStyle: 'italic',
@@ -1283,7 +1284,7 @@ function buildClusteredInstanceGraph() {
       return {
         id: item.record_id || `${name}-${index}`,
         name,
-        shortName: shortArtifactName(name),
+        shortName: shortArtifactName(recordText(name, 'artifact')),
         type,
         group: getTypeMajorGroup(type),
         province,
@@ -1489,7 +1490,7 @@ function drawCooccurrence() {
     .attr('stroke', d => d.clusterKey === selectedKey ? '#7c2d12' : '#cfc2b4')
     .attr('stroke-opacity', d => d.clusterKey === selectedKey ? 0.78 : 0.46)
     .style('cursor', 'pointer')
-    .on('mouseenter', (event, d) => showTooltip(event, t("<strong>{0}</strong><br/>地点：{1}<br/>时代：{2}", [localize(d.clusterTitle), localize(d.location), localize(d.era)])))
+    .on('mouseenter', (event, d) => showTooltip(event, t("<strong>{0}</strong><br/>地点：{1}<br/>时代：{2}", [localize(d.clusterTitle), recordText(d.location, 'site'), localize(d.era)])))
     .on('mousemove', moveTooltip)
     .on('mouseleave', hideTooltip)
     .on('click', (event, d) => {
@@ -1503,7 +1504,7 @@ function drawCooccurrence() {
     .join('g')
     .attr('class', 'node')
     .style('cursor', 'pointer')
-    .on('mouseenter', (event, d) => showTooltip(event, t("<strong>{0}</strong><br/>器类：{1}<br/>时代：{2}<br/>地点：{3}", [localize(d.name), localize(d.type), localize(d.era), localize(d.location)])))
+    .on('mouseenter', (event, d) => showTooltip(event, t("<strong>{0}</strong><br/>器类：{1}<br/>时代：{2}<br/>地点：{3}", [recordText(d.name, 'artifact'), localize(d.type), localize(d.era), recordText(d.location, 'site')])))
     .on('mousemove', moveTooltip)
     .on('mouseleave', hideTooltip)
     .on('click', (event, d) => viewArtifact(d.originalId))
@@ -1526,6 +1527,7 @@ function drawCooccurrence() {
     .style('stroke-width', 4)
     .style('stroke-linejoin', 'round')
     .text(localizedText(d => d.shortName))
+    .append('title').text(d => recordText(d.name, 'artifact'))
 
   coSimulation = d3.forceSimulation(nodes)
     .force('link', d3.forceLink(links).id(d => d.id).distance(40).strength(0.72))

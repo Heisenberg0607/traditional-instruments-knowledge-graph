@@ -1,4 +1,5 @@
 import { vocabularySearchText } from '../i18n'
+import { englishRecordSearchText } from '../i18n/recordLabels'
 
 export const INSTRUMENT_TREE = {
   name: '乐器',
@@ -525,6 +526,7 @@ export function searchArtifactText(artifact) {
     artifact.音乐性能,
     artifact.标注部分?.text,
     getArtifactProvince(artifact),
+    englishRecordSearchText(artifact),
     vocabularySearchText([
       getArtifactPrimaryType(artifact),
       getTypeMajorGroup(getArtifactPrimaryType(artifact)),

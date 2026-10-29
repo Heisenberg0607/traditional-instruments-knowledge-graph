@@ -53,7 +53,7 @@
           <div class="flex justify-between items-start">
             <div class="flex-1">
               <h3 class="text-2xl font-bold text-amber-900 mb-3">
-                {{ localize(artifact.器物名称 || '未命名文物') }}
+                {{ recordText(artifact.器物名称 || '未命名文物', 'artifact') }}
               </h3>
 
               <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4 text-sm">
@@ -71,7 +71,7 @@
                 </div>
                 <div>
                   <span class="font-medium text-stone-600">{{ t("机构：") }}</span>
-                  <span class="text-stone-800">{{ localize(artifact.机构 || '未知') }}</span>
+                  <span class="text-stone-800">{{ recordText(artifact.机构 || '未知', 'institution') }}</span>
                 </div>
                 <div>
                   <span class="font-medium text-stone-600">{{ t("编号：") }}</span>
@@ -88,7 +88,7 @@
                     class="px-3 py-1 text-sm rounded-full"
                     :class="getEntityClass(entity.label)"
                   >
-                    {{ localize(entity.text) }}
+                    {{ entity.label === '出土地点' ? recordText(entity.text, 'site') : localize(entity.text) }}
                   </span>
                   <span v-if="artifact.标注部分.entities.length > 8" class="text-sm text-stone-500">{{ t("+{0} 更多", [artifact.标注部分.entities.length - 8]) }}</span>
                 </div>
@@ -112,7 +112,7 @@
 
 <script setup>
 import { useI18n } from '../i18n'
-const { t, localize } = useI18n()
+const { t, localize, recordText } = useI18n()
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useArtifactStore } from '../stores/artifactStore'
