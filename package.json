@@ -7,7 +7,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "test:i18n": "node tests/i18n.mjs",
-    "generate:english-records": "node scripts/generate-english-records.mjs"
+    "generate:english-records": "node scripts/generate-english-records.mjs",
+    "generate:english-annotations": "node scripts/generate-english-annotations.mjs"
   },
   "dependencies": {
     "d3": "^7.9.0",

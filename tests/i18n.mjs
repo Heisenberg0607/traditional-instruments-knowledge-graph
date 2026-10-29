@@ -7,7 +7,7 @@ import { baseParse } from '@vue/compiler-dom'
 // Exercise the actual Vite-loaded modules, including the raw translation table.
 const server = await createServer({ server: { middlewareMode: true }, appType: 'custom' })
 try {
-  const { messages, locale, setLocale, t, localize, localizedText, recordText } = await server.ssrLoadModule('/src/i18n/index.js')
+  const { messages, locale, setLocale, t, localize, localizedText, recordText, entityText, periodText } = await server.ssrLoadModule('/src/i18n/index.js')
   const data = await server.ssrLoadModule('/src/utils/statisticsData.js')
   const artifacts = JSON.parse(fs.readFileSync(new URL('../src/data/artifacts.json', import.meta.url), 'utf8'))
   const placeholders = s => [...s.matchAll(/\{\d+\}/g)].map(m => m[0]).sort()
@@ -68,9 +68,38 @@ try {
   assert.equal(recordText('钟祥市博物馆', 'institution'), 'Zhongxiang Municipal Museum (钟祥市博物馆)')
   assert.equal(recordText('未知', 'institution'), 'Unknown')
   assert.equal(recordText('', 'site'), '')
+  assert.equal(entityText({ label: '乐器部件', text: '于口' }), 'Arched mouth rim (于口)')
+  assert.equal(entityText({ label: '乐器部件', text: '两铣' }), 'Two lateral edges (两铣)')
+  assert.equal(entityText({ label: '乐器部件', text: '甬' }), 'Shank (甬)')
+  assert.equal(entityText({ label: '乐器部件', text: '正鼓' }), 'Central striking area (正鼓)')
+  assert.equal(entityText({ label: '数据属性', text: '合瓦形' }), 'Tile-pair-shaped cross-section (合瓦形)')
+  assert.equal(entityText({ label: '数据属性', text: '弧曲' }), 'Curved (弧曲)')
+  assert.equal(entityText({ label: '数据属性', text: '角上叉' }), 'Corners splay upward (角上叉)')
+  assert.equal(entityText({ label: '数据属性', text: '方块状' }), 'Block-shaped (方块状)')
+  assert.equal(entityText({ label: '数据属性', text: '3.7' }), '3.7')
+  assert.equal(entityText(null), '')
+  assert.equal(periodText('商代殷墟晚期'), 'Late Yinxu phase, Shang dynasty (商代殷墟晚期)')
+  assert.equal(periodText('商代殷墟四期'), 'Yinxu phase IV, Shang dynasty (商代殷墟四期)')
+  assert.ok(periodText('清乾隆二十六年').includes('year 26'))
+  assert.ok(periodText('西汉文帝十二年(前 168)').includes('168 BCE'))
+  const annotations = JSON.parse(fs.readFileSync(new URL('../src/i18n/english-annotations.json', import.meta.url), 'utf8'))
   const catalog = JSON.parse(fs.readFileSync(new URL('../src/i18n/english-records.json', import.meta.url), 'utf8'))
   const before = JSON.stringify(artifacts)
   for (const artifact of artifacts) {
+    if (artifact.时代) {
+      assert.ok(annotations.period[artifact.时代], `Missing period: ${artifact.时代}`)
+      assert.ok(!/\p{Script=Han}/u.test(annotations.period[artifact.时代]))
+      assert.ok(periodText(artifact.时代).endsWith(` (${artifact.时代})`))
+    }
+    const entities = [...(artifact.标注部分?.entities || []), ...(artifact.标注部分?.relations || []).flatMap(relation => [relation.subject, relation.object])]
+    for (const entity of entities) {
+      const kind = { 乐器部件: 'part', 数据属性: 'attribute', 纹饰: 'decoration' }[entity.label]
+      if (!kind) continue
+      assert.ok(annotations[kind][entity.text], `Missing ${kind}: ${entity.text}`)
+      assert.ok(!/\p{Script=Han}/u.test(annotations[kind][entity.text]))
+      if (/\p{Script=Han}/u.test(entity.text)) assert.ok(entityText(entity).endsWith(` (${entity.text})`))
+      else assert.equal(entityText(entity), localize(entity.text))
+    }
     for (const [field, kind] of [['器物名称', 'artifact'], ['机构', 'institution'], ['原藏机构', 'institution'], ['出土地点', 'site']]) {
       const source = artifact[field]
       if (!source || !/\p{Script=Han}/u.test(source)) continue
@@ -88,6 +117,12 @@ try {
     for (const [kind, entries] of Object.entries(catalog)) {
       for (const source of Object.keys(entries)) assert.equal(recordText(source, kind), localize(source))
     }
+    for (const artifact of artifacts) {
+      assert.equal(periodText(artifact.时代), localize(artifact.时代))
+      for (const entity of artifact.标注部分?.entities || []) {
+        assert.equal(entityText(entity), localize(entity.text))
+      }
+    }
   }
   assert.equal(JSON.stringify(artifacts), before)
   setLocale('en')
@@ -104,6 +139,8 @@ try {
   assert.ok(search('Yishui Liujiadianzi Zheng Bell').includes('shandong_0025'))
   assert.ok(search('Shandong Provincial Institute of Cultural Relics and Archaeology').includes('shandong_0025'))
   assert.ok(search('Yuandongtou Township').includes('shandong_0025'))
+  assert.ok(search('tile-pair').includes('shandong_0017'))
+  assert.ok(search('Yinxu').length > 0)
   for (const name of [...data.INSTRUMENT_LEAVES, ...data.ERA_ORDER, ...data.PROVINCE_NAMES]) assert.ok(messages[name], `Missing vocabulary: ${name}`)
   assert.equal(artifacts.length, 1080)
   console.log(`PASS: ${Object.keys(messages).length} messages, all UI keys, vocabulary, interpolation, and multilingual search across 1,080 original records`)

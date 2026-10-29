@@ -126,7 +126,11 @@ for (const artifact of artifacts) {
   add(artifact.机构, 'institution')
   add(artifact.原藏机构, 'institution')
   add(artifact.出土地点, 'site')
-  for (const entity of artifact.标注部分?.entities || []) if (entity.label === '出土地点') add(entity.text, 'site')
+  const entities = [...(artifact.标注部分?.entities || []), ...(artifact.标注部分?.relations || []).flatMap(relation => [relation.subject, relation.object])]
+  for (const entity of entities) {
+    if (entity.label === '出土地点') add(entity.text, 'site')
+    if (entity.label === '机构') add(entity.text, 'institution')
+  }
   // Statistics uses shortened site strings as grouping keys. Keep grouping raw,
   // but provide a display entry for those strings too.
   const site = String(artifact.出土地点 || '').replace(/\s+/g, '').replace(/[，。；;].*$/g, '').replace(/\d+号.*$/g, '').replace(/第[一二三四五六七八九十0-9]+.*$/g, '').trim()

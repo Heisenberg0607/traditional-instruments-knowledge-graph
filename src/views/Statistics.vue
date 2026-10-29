@@ -67,7 +67,7 @@
                 <div v-if="selectedTypeDetail.cases.length" class="space-y-2">
                   <div v-for="item in selectedTypeDetail.cases" :key="item.record_id" class="case-row" @click="viewArtifact(item.record_id)">
                     <strong>{{ recordText(item.器物名称 || item.record_id, 'artifact') }}</strong>
-                    <span>{{ localize(getArtifactProvince(item)) }} · {{ localize(item.时代 || '时代未详') }}</span>
+                    <span>{{ localize(getArtifactProvince(item)) }} · {{ periodText(item.时代 || '时代未详') }}</span>
                   </div>
                 </div>
                 <p v-else class="empty-text">{{ t("暂无案例") }}</p>
@@ -159,7 +159,7 @@
                     class="example-card"
                   >
                     <strong>{{ recordText(example.location, 'site') }}</strong>
-                    <span>{{ localize(example.era || '时代未详') }}</span>
+                    <span>{{ periodText(example.era || '时代未详') }}</span>
                     <p>{{ example.artifacts.slice(0, 4).map(name => recordText(name, 'artifact')).join(locale === 'en' ? '; ' : '、') }}</p>
                   </div>
                 </div>
@@ -196,7 +196,7 @@
 
 <script setup>
 import { useI18n } from '../i18n'
-const { t, localize, locale, localizedText, recordText } = useI18n()
+const { t, localize, locale, localizedText, recordText, periodText } = useI18n()
 import { computed, defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useArtifactStore } from '../stores/artifactStore'

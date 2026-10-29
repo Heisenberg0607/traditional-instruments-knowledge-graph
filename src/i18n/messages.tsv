@@ -247,7 +247,7 @@
 <strong>{0}</strong><br/>地点：{1}<br/>时代：{2}	<strong>{0}</strong><br/>Site: {1}<br/>Period: {2}	<strong>{0}</strong><br/>출토지: {1}<br/>시대: {2}
 <strong>{0}</strong><br/>器类：{1}<br/>时代：{2}<br/>地点：{3}	<strong>{0}</strong><br/>Type: {1}<br/>Period: {2}<br/>Site: {3}	<strong>{0}</strong><br/>종류: {1}<br/>시대: {2}<br/>출토지: {3}
 原始资料说明	About source records	원문 자료 안내
-界面、分类、时代和地区名称支持三种语言。文物专名、考古描述、文献及原始标注保留中文原文。	English artifact names, institutions, and excavation sites use translated terms and pinyin, followed by the original Chinese in parentheses. Archaeological descriptions and references retain their source text.	화면, 분류, 시대 및 지역명은 3개 언어를 지원합니다. 유물 고유명, 고고학 설명, 문헌 및 원본 주석은 중국어 원문으로 유지됩니다.
+界面、分类、时代和地区名称支持三种语言。文物专名、考古描述、文献及原始标注保留中文原文。	English names, institutions, sites, instrument parts, shapes, decorations, and periods are shown with the original Chinese in parentheses. Proper names use pinyin. Numeric measurements, archaeological narratives, and references retain their source text.	화면, 분류, 시대 및 지역명은 3개 언어를 지원합니다. 유물 고유명, 고고학 설명, 문헌 및 원본 주석은 중국어 원문으로 유지됩니다.
 本页统计的对象为文物数据中识别出的乐器器型，重点展示体鸣乐器内部的演奏方式、器类与具体器型。	These statistics cover instrument forms identified in the artifact records, focusing on playing methods, families, and types of idiophones.	유물 자료에서 확인된 악기 형태를 분석하며, 체명악기의 연주 방식과 분류 및 세부 형태를 중심으로 보여줍니다.
 体鸣乐器依靠器物自身振动发声，青铜乐器中钟、铙、钲、铎等都属于这一大类。	Idiophones produce sound through vibration of the instrument itself. Bronze bells such as Zhong, Nao, Zheng, and Duo belong to this family.	체명악기는 악기 자체의 진동으로 소리를 냅니다. 청동 악기인 종, 요, 정, 탁 등이 이 분류에 속합니다.
 碰奏体鸣乐器多通过相互碰击发声，包含铙、钹、板等器型。	Concussion idiophones sound when struck together; this classification includes Nao, cymbals, and clappers.	충돌 체명악기는 서로 부딪쳐 소리를 내며, 이 분류에는 요, 발, 박판 등이 포함됩니다.

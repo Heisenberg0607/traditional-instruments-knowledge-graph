@@ -114,7 +114,7 @@
                 <span class="font-medium">{{ t("类型：") }}</span>{{ localize(artifact.乐器类型 || '未知') }}
               </p>
               <p class="text-stone-600">
-                <span class="font-medium">{{ t("时代：") }}</span>{{ localize(artifact.时代 || '未知') }}
+                <span class="font-medium">{{ t("时代：") }}</span>{{ periodText(artifact.时代 || '未知') }}
               </p>
               <p class="text-stone-600">
                 <span class="font-medium">{{ t("机构：") }}</span>{{ recordText(artifact.机构 || '未知', 'institution') }}
@@ -129,7 +129,7 @@
                 class="px-2 py-1 text-xs rounded"
                 :class="getEntityClass(entity.label)"
               >
-                {{ entity.label === '出土地点' ? recordText(entity.text, 'site') : localize(entity.text) }}
+                {{ entityText(entity) }}
               </span>
               <span v-if="artifact.标注部分.entities.length > 5" class="text-xs text-stone-500">
                 +{{ localize(artifact.标注部分.entities.length - 5) }}
@@ -159,7 +159,7 @@
 
 <script setup>
 import { useI18n } from '../i18n'
-const { t, localize, recordText } = useI18n()
+const { t, localize, recordText, entityText, periodText } = useI18n()
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useArtifactStore } from '../stores/artifactStore'
