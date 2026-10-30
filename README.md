@@ -1,92 +1,170 @@
-# Traditional Chinese Musical Instrument Artifact Knowledge Graph
-
-A course team project that structures archaeological descriptions through BERT-based named entity recognition and LLM-based relation extraction, connecting a domain ontology and knowledge graph to a search and visualization demo.
+# Knowledge Graph of Traditional Chinese Musical Instrument Artifacts
 
 [English](README.md) | [한국어](README.ko.md) | [简体中文](README.zh-CN.md)
 
-## Website languages
+This is a team project completed for a knowledge graph course.
 
-Choose 中文, English, or 한국어 in the header. The selection persists across navigation and reloads; Chinese remains the default. Navigation, filters, detail labels, chart labels/tooltips, instrument classifications, common periods, and province names are localized. Search accepts English and Korean instrument, period-group, province, and decoration names alongside the original Chinese text (for example, `Shanghai Yongzhong` or `상하이 용종`).
+**Brief project description:**
+This project extracts data from books on traditional Chinese musical instruments and builds an ontology-based knowledge graph. Scanned PDFs were converted to text with MinerU, and a subset of the data was manually annotated. Rule-based extraction was combined with named entity recognition and relation extraction using BERT-family models to structure the data. LLM-based extraction was evaluated in comparative experiments, and the final data was connected to a demo website supporting statistical visualization and artifact search.
 
-In English, artifact names, holding/former institutions, and excavation sites combine translated domain terms with untoned pinyin for proper names, followed by the original Chinese in parentheses. For example: `Yishui Liujiadianzi Zheng Bell (沂水刘家店子钲)`. Extracted instrument parts, shapes/dimensions, and decoration tags also have English labels with Chinese originals, including relation subjects and objects. Numeric-only measurements stay unchanged. Period labels include Yinxu phases, early/middle/late subdivisions, and regnal dates. Where a period field contains an entire archaeological paragraph, the English identifies the period cited and explicitly notes that additional source notes are retained. Full source text remains in parentheses. These English labels are searchable. The Chinese display is unchanged; full archaeological narratives and citations retain their source text.
+[Visit the demo website](https://traditional-instruments-knowledge-g.vercel.app/)
 
-The original dataset and filter/grouping identifiers are unchanged. UI translations live in `src/i18n/messages.tsv` (Chinese source, English, Korean; tab-separated). Record labels live in `src/i18n/english-records.json`, generated offline with `npm run generate:english-records`. The generator in `scripts/generate-english-records.mjs` contains vocabulary and pronunciation overrides for review; generated pinyin and literal institution labels are display aids, not claims of official English names. Regenerate the catalog when adding records or changing overrides. The pinyin dictionary is a development dependency and is not sent to visitors. Run `npm run test:i18n` to check translation coverage, original-text preservation, Chinese display stability, and multilingual search, and `npm run build` for a production build.
+## Website Language Support
 
-Annotation and period labels live in `src/i18n/english-annotations.json`. Regenerate them with `npm run generate:english-annotations`; vocabulary and exact phrase overrides are in `scripts/annotation-glossary.mjs`. Short descriptions use a context-specific glossary and literal phrase composition; broken source fragments are identified as such. Bell anatomy follows the [Smithsonian bell-parts guide](https://asia-archive.si.edu/wp-content/uploads/2017/07/Resound-Large-print.pdf) and [National Palace Museum terminology](https://theme.npm.edu.tw/selection/Article.aspx?lang=2&sNo=04001042). Tests require coverage of every current part, attribute, decoration, relation endpoint, and period while checking that source strings and the Chinese display remain unchanged.
-
-Korean content follows the same Chinese-original format. Established Korean instrument terms and explanatory anatomy/shape labels are combined with Hangul transliteration for place/proper names, plus historical-name overrides. Examples: `종의 자루 (甬)`, `상나라 은허 말기 (商代殷墟晚期)`, and `산둥성 문물고고연구소 (山东省文物考古研究所)`. Korean names, metadata, anatomy, descriptions, and periods are searchable. `npm run generate:korean` builds `src/i18n/korean-content.json` from the reviewed glossary, transliteration rules, and existing content catalogs. Build-time files `scripts/korean-glossary.mjs`, `scripts/pinyin-hangul.mjs`, and `scripts/generate-korean.mjs` maintain exact phrase/name overrides and literal phrase composition. The transliteration uses the NIKL initial/final correspondence approach with explicit conventional-name exceptions; uncommon names and source fragments remain reviewable through their Chinese originals. Tests also check full Korean coverage, bilingual originals, decimal preservation, and existing English/Chinese behavior.
+The language menu at the top offers 中文, English, and 한국어. The selection persists across page navigation and refreshes; Chinese is the default. Translations cover menus, filters, detail fields, charts and tooltips, instrument classifications, and common period and region names. Korean and English classification names, such as `상하이 용종` and `Shanghai Yongzhong`, can also be used for searches.
 
 ## Project Overview
 
-Problem: descriptions of traditional Chinese musical instrument artifacts are scattered across documentary entries, making it difficult to find artifacts by their attributes and examine their relationships together. The project turns these descriptions into connected, structured data.
+**Problem:** Descriptions of the form, excavation site, period, and collection of traditional Chinese musical instrument artifacts are scattered across individual entries in the literature. This makes it difficult to find artifacts that meet specific criteria or explore their relationships together. The project focuses on organizing these descriptions into interconnected data.
 
-Approach: the team organized material from 《中国音乐文物大系》 and modeled instruments, parts, materials, decoration, periods, locations, and institutions with a domain ontology. BERT identifies entities and an LLM extracts semantic relations for graph construction, while a Vue and D3 demo makes the results explorable.
+**Approach:** Materials from 《中国音乐文物大系》 were organized, and instruments, parts, materials, decorative motifs, periods, places, and institutions were modeled in an ontology. The team combined rule-based extraction with BERT-based entity recognition and relation extraction to construct the graph, and implemented a Vue and D3 demo for exploring the results.
 
-What You Can Do: search and filter artifact records by keywords, region, and instrument type, then inspect attributes, extraction results, and similar artifacts. Charts support exploration of instrument-type, regional and period distributions, and co-occurrence by excavation location.
+**Use of the results:** Users can search artifact records by keywords and filters such as region and instrument type, and inspect detailed attributes, extraction results, and similar artifacts. Charts show distributions by instrument type, region, and period, as well as co-occurrence based on excavation sites.
 
-- Main outputs: a 1,080-record demo dataset, ontology schemas, a graph database dump, and a search and visualization web demo.
-- My role: OCR, data preprocessing, data annotation, and ontology construction.
-- Project type: completed course team project.
+- Main deliverables: demo data with 1,080 records, an ontology schema, a graph database dump, and a search and visualization web demo.
+- Personal responsibilities: OCR, data preprocessing, data annotation, ontology construction, and participation in BERT modeling and training.
+- Project status: a completed course team project.
 
-## Main Outputs and Images
+## Key Results and Representative Images
 
-The web demo provides search, filtering, artifact details, and similarity recommendations. Visualizations cover instrument-type hierarchies, regional distribution, a region-by-type heatmap, type distributions across periods, and instrument co-occurrence by excavation location. Separate Cypher materials illustrate individual artifact relationships and connections between excavation locations and holding institutions.
+The web demo provides search and filtering, artifact detail views, and recommendations of similar artifacts. The statistics page supports exploration of distributions by instrument type, region, and period, as well as co-occurrence based on excavation sites. The following figures show the web demo, ontology design, and Neo4j exploration results.
 
-The images below come from the team's original demo, schema diagrams, and Cypher document. The instrument and part hierarchies show a broader ontology design scope than the demo's idiophone focus.
+### Figure 1. Statistical dashboard by instrument type, region, and period
 
-![Statistics view of the search and visualization demo](docs/images/demo-statistics.png)
+![Web demo statistics showing the instrument type hierarchy and distributions by region and period](docs/images/demo-statistics.png)
 
-![Overall ontology schema](docs/schema/schema.png)
+This view summarizes the scale and distribution of 1,080 artifact records. A sunburst chart presents instrument classifications, while donut charts show regional and chronological distributions. Record counts and counts of physical artifacts on the screen are separate measures.
 
-![Attributes and relationships of an individual artifact](docs/images/artifact-subgraph.png)
+### Figure 2. Knowledge graph schema centered on instruments
 
-![Connections between excavation locations, instruments, and institutions](docs/images/location-institution-subgraph.png)
+![Ontology schema connecting instruments with physical characteristics, archaeological context, and musical performance](docs/schema/schema.png)
 
-![Instrument class hierarchy](docs/schema/instrument-hierarchy.png)
+The schema connects instruments to parts, materials, decorative motifs, inscriptions, historical periods, excavation sites, institutions, literature, people, and musical performance. It shows both the data properties of each class and the relationships between classes.
 
-![Instrument-part class hierarchy](docs/schema/part-hierarchy.png)
+### Figure 3. Instrument class hierarchy with detailed idiophone categories
 
-## My Contribution
+![Instrument class hierarchy expanding idiophones by playing method and specific type](docs/schema/report-instrument-hierarchy.jpeg)
 
-- OCR: handled character recognition for the source material.
-- Data preprocessing: organized source material and prepared data for subsequent work.
-- Data annotation: contributed to annotation of the documentary data.
-- Ontology construction: contributed to structuring domain knowledge through ontology construction.
+This instrument class hierarchy appears in the knowledge extraction report. It includes upper-level categories such as idiophones, chordophones, aerophones, and membranophones, and subdivides idiophones—the actual research focus—by playing method and specific types such as bells and chime stones. The scope of the overall ontology design is broader than the idiophone dataset used in this demo.
+
+### Figure 4. Class hierarchy for standardizing part terminology
+
+![Instrument part hierarchy separating common parts from idiophone, bell, and bronze drum parts](docs/schema/part-hierarchy.png)
+
+Instrument parts are divided into common parts and parts specific to instrument families, with idiophone parts further subdivided into bell and bronze drum parts. This hierarchy provides a reference for mapping part expressions in the literature to shared concepts and organizing dimensional and morphological attributes for each part.
+
+### Figure 5. Connecting an individual artifact to its parts, material, and excavation site
+
+![Neo4j subgraph linking a single artifact to its parts, material, inscription, and excavation site](docs/images/artifact-subgraph.png)
+
+This Neo4j exploration example shows the parts, copper material, inscription, and excavation site connected to a selected artifact. The right panel displays attributes including the record ID, archaeological description, form, and dimensions.
+
+### Figure 6. Exploring artifacts in the same collection and their excavation sites
+
+![Neo4j subgraph showing multiple artifacts connected to the same collecting institution and their excavation sites](docs/images/location-institution-subgraph.png)
+
+The graph connects several instruments held by the same institution to their respective excavation sites. Users can follow relationships from the institution to artifacts and from artifacts to excavation sites. Figures 5 and 6 are separate Neo4j/Cypher exploration views.
+
+## Personal Contributions
+
+- OCR: used MinerU to extract Chinese text from image-based PDF books.
+- Data preprocessing: organized paragraphs and fields in the OCR output and split the text into artifact records to prepare annotation tasks and model inputs.
+- Data annotation: participated in manual annotation using Label Studio.
+- Ontology construction: participated in modeling domain concepts and relationships with Protégé, referencing the classical-music ontology framework.
+- BERT modeling: participated in modeling and training BERT-family models for named entity recognition and relation extraction.
 
 ## Data and Preprocessing
 
-The data comes from 《中国音乐文物大系》. The poster highlights the Hubei, Beijing, and Shaanxi volumes as representative sources. The demo JSON also includes records from other regions.
+The data comes from 15 regional volumes of 《中国音乐文物大系》. The final dataset contains 1,080 artifact records centered on idiophones, of which 533 include musical performance information. The report gives a total of 2,817 physical artifacts. Since one record can describe multiple physical artifacts, record counts and artifact quantities are distinguished.
 
-Document organization and annotation support joint exploration of artifact metadata and text-based extraction results. `src/data/artifacts.json` contains fields such as artifact name, instrument type, period, institution, excavation location, and literature, alongside entity and relation entries. Entities contain text, labels, and offsets. Relations contain subjects, objects, types, and confidence values.
+The source material consists of scanned PDF books in which text is stored as images. MinerU was used for Chinese OCR and document layout analysis, followed by Python processing to clean the text and split it into artifact records. Text with standardized fields was imported into Label Studio, and a total of 206 idiophone records from the Hubei and Beijing volumes were manually annotated.
 
-All 1,080 records have unique IDs. A record may describe multiple physical objects, so record counts and object counts are distinct.
+`src/data/artifacts.json` contains basic fields such as artifact name, instrument type, period, institution, excavation site, and literature, along with source text, entities, and relations under `标注部分`. Entities include text, labels, and start and end positions; relations contain subjects, objects, types, and confidence values. All 1,080 record IDs are unique.
 
-## Methods and System Structure
+The following one-line example selects only key fields from the first record in the [actual JSON source](https://github.com/Heisenberg0607/traditional-instruments-knowledge-graph/blob/main/src/data/artifacts.json). Entities, relations, and other fields are omitted.
+
+```json
+{"record_id": "shandong_0017", "器物名称": "青州苏埠屯8号墓编铙", "乐器类型": "铙", "数量": "3", "时代": "商代晚期", "机构": "山东省文物考古研究所", "出土地点": "青州苏埠屯8号商代墓"}
+```
+
+This record describes 3 late Shang bian nao (编铙) excavated from Tomb No. 8 at Subutun, Qingzhou, as a single record, together with their instrument type, period, collecting institution, and excavation site.
+
+## Construction Methods and System Architecture
 
 | Stage | Method and role |
 | --- | --- |
-| Document organization and annotation | Organize unstructured descriptions and prepare data for entity recognition |
-| Ontology modeling | Reference the classical-music ontology framework to connect instruments, parts, materials, decoration, and historical and excavation contexts |
-| BERT named entity recognition | Identify instrument names, periods, materials, forms, excavation locations, and holding locations in documentary text |
-| LLM relation extraction | Extract semantic relations linking instruments to periods, regions, materials, uses, and literature sources |
-| Graph construction | Integrate entities and relations in a Neo4j graph database for Cypher exploration |
-| Web exploration | Vue 3 and Vue Router for views, Pinia for data management, and D3 for distribution and relationship visualizations |
+| Literature digitization | Apply MinerU's Chinese OCR and layout analysis to image-based PDF books to obtain machine-readable text |
+| Preprocessing and manual annotation | Use Python to clean text, split artifact records, and standardize fields, then manually annotate in Label Studio |
+| Ontology modeling | Reference the classical-music ontology framework and use Protégé to connect instruments, parts, materials, and decorative motifs with historical and excavation contexts |
+| Rule-based extraction | Extract relatively consistently formatted record-level fields such as artifact name, type, period, institution, excavation site, identifiers, and literature |
+| BERT named entity recognition | Use `hfl/chinese-roberta-wwm-ext` with BIOES and CRF to recognize 5 types: instrument parts, decorative motifs, data attributes, institutions, and excavation sites |
+| BERT relation extraction | Mark entity pairs with `[E1]` and `[E2]`, feed them into RoBERTa, and classify relations such as overall dimensions, part dimensions, quantities, and shape descriptions |
+| Rule-based postprocessing | Remove duplicates, merge fields, validate overall and part attributes, preserve identifier formats, and correct location boundaries |
+| LLM comparative experiments | Compare prompting, 5-shot, and fine-tuning settings for Qwen2.5-7B and Qwen3-14B; adopt rules + BERT for final extraction |
+| Graph construction | Integrate entities and relations according to the ontology, store them in Neo4j, and explore them with Cypher |
+| Web exploration | Build views with Vue 3 and Vue Router, manage data with Pinia, and visualize distributions and relationships with D3 |
 
-The web demo reads local JSON. Search uses string matching. Similarity recommendations combine part overlap with weight 0.4, decoration overlap with weight 0.4, and period proximity with weight 0.2. These weights define the recommendation rule.
+The processing flow is **scanned PDFs → MinerU OCR → text preprocessing → manual annotation of a subset of records → rules + BERT extraction → rule-based postprocessing → ontology-guided graph and JSON construction → search and visualization**. The ontology provides shared concepts and relationships for annotation, extraction, and graph construction; LLMs were used in comparative extraction experiments.
 
-## Evaluation and Results
+The web demo reads local JSON. Search uses string matching, while similar-artifact recommendations use a weighted sum of part overlap (0.4), decorative motif overlap (0.4), and chronological proximity (0.2). These weights are configuration values for the recommendation rules.
 
-| Target | Method | Result |
+## Evaluation Methods and Results
+
+### Evaluation criteria
+
+Precision, Recall, and F1 are summarized from the experiments in Chapters 4–6 of the knowledge extraction report. All performance values below are percentages (%). The BERT experiments used an 8:1:1 training/validation/test split. Strict NER evaluation requires matching entity boundaries and types; RE evaluation requires matching the subject, object, and relation type.
+
+The LLM experiments distinguish strict and relaxed matching. Relaxed matching allows boundary differences involving units or some prefixes and suffixes when labels agree and the differences satisfy the rules. The 5 BERT NER types are parts, decorative motifs, data attributes, institutions, and excavation sites; the 5 LLM NER types are instruments, parts, excavation sites, data attributes, and institutions. The values below therefore describe each experimental setting and should not be interpreted as a direct ranking under identical labels and evaluation sets.
+
+### BERT-family model results
+
+| Task | Setting | Precision | Recall | F1 |
+| --- | --- | ---: | ---: | ---: |
+| Named entity recognition (NER) | BIOES + RoBERTa + CRF | 77.27 | 75.22 | **76.23** |
+| Relation extraction (RE) | RoBERTa relation classification with gold entities | 72.00 | 94.74 | **81.82** |
+
+NER F1 improved from 71.00% for the BIO + RoBERTa baseline to 73.00% with BIOES and 76.23% after adding CRF. The final model improved by **5.23 percentage points** over the baseline. By entity type, F1 reached 94.12% for excavation sites and 85.71% for decorative motifs, while institutions scored 50.00% and require further improvement.
+
+### LLM results
+
+| Task | Model and setting | Precision | Recall | F1 |
+| --- | --- | ---: | ---: | ---: |
+| NER | Qwen2.5-7B, simple prompt, no fine-tuning | 24.79 | 37.04 | 29.70 |
+| NER, strict matching | Qwen3-14B, prompt optimization + 5-shot | 47.61 | 60.72 | **53.37** |
+| NER, relaxed matching | Qwen3-14B, prompt optimization + 5-shot | 56.46 | 72.01 | **63.29** |
+| NER, strict matching | Qwen3-14B, prompt optimization + 5-shot + fine-tuning | 45.67 | 57.89 | 51.06 |
+| NER, relaxed matching | Qwen3-14B, prompt optimization + 5-shot + fine-tuning | 55.88 | 70.83 | 62.48 |
+| RE with gold entities | Qwen2.5-7B, simple prompt, no fine-tuning | 8.06 | 13.89 | 10.20 |
+| RE with gold entities | Qwen3-14B, prompt optimization + 5-shot | 87.62 | 84.79 | 86.18 |
+| RE with gold entities | Qwen3-14B, fine-tuned/deployed version in the report | 88.32 | 85.14 | **86.70** |
+
+### Pipeline evaluation with predicted entities
+
+The RE tables above assume that gold entities are provided. In actual processing, passing NER predictions to RE propagates errors to the next stage, so this setting is reported separately.
+
+| Task | Input or condition | Precision | Recall | F1 |
+| --- | --- | ---: | ---: | ---: |
+| BERT pipeline RE | Predicted NER entities | Not reported | Not reported | **Approx. 5.56** |
+| Qwen3-14B pipeline NER | Strict matching | 46.47 | 60.95 | 52.73 |
+| Qwen3-14B pipeline NER | Relaxed matching | 55.77 | 73.14 | 63.28 |
+| Qwen3-14B pipeline RE | Predicted NER entities | 28.15 | 35.02 | **31.21** |
+
+Entity boundary errors substantially reduced relation extraction performance for both model families. The final construction approach was **rule-based extraction + BERT extraction + rule-based postprocessing**, considering output stability, reproducibility, and ease of correction. The pipeline values above are results from the respective model experiments; the report does not provide a separate accuracy evaluation of the final rule-combined approach.
+
+### Data and deliverable scale
+
+| Item | Basis | Result |
 | --- | --- | --- |
-| Demo dataset size | Direct count of JSON records and entries | 1,080 records, 23,394 entity entries, and 8,951 relation entries |
-| Documented graph size | Values recorded in `docs/schema/classes.csv` | 1,170 instrument nodes |
-| Frontend build | Dependency installation and build with Node.js 24.22.1 / npm 11.9.0 | `npm ci` and `npm run build` passed |
+| Demo JSON scale | Direct count of `src/data/artifacts.json` | 1,080 records, 23,394 entity entries, and 8,951 relation entries |
+| Literature and artifact coverage | Knowledge extraction report | 15 regional volumes, 2,817 physical artifacts in total, and 533 records with musical performance information |
+| Manual annotation | Knowledge extraction report | A total of 206 idiophone records from the Hubei and Beijing volumes |
+| Graph documentation scale | Values listed in `docs/schema/classes.csv` | 1,170 instrument nodes |
 
-Entity and relation entry counts describe the export and include repeated mentions. Instrument-node counts come from the schema document and refer to a different counting scope than demo records. These results describe artifact sizes and build verification; extraction accuracy and retrieval quality remain topics for further evaluation.
+Entity and relation entry counts describe the file contents and include repeated mentions. Instrument nodes in the graph, demo records, and physical artifacts have different counting scopes. Model extraction performance and web search/recommendation quality are also separate evaluation targets; quantitative evaluation of search and recommendations remains future work.
 
-## Installation and Usage
+## Installation and Execution
 
-With Node.js and npm installed, run these commands from the repository root:
+Run the following commands from the repository root in an environment with Node.js and npm.
 
 ```bash
 npm ci
@@ -98,9 +176,9 @@ npm run build
 npm run preview
 ```
 
-Open the address printed by Vite for the development app. The web demo runs with the included JSON. Graph resources are available as a [database dump](data/graph/知识图谱文件.dump), [Cypher queries](docs/queries.cypher), and the [original Word document with figures](docs/original/cypher-queries.docx). Database restoration requires a separate Neo4j environment.
+Open the development site at the address printed by Vite. The web demo runs on the included JSON. Graph database materials are available in the [dump file](data/graph/知识图谱文件.dump), and exploration examples are provided as [Cypher queries](docs/queries.cypher) and an [original Word document with figures](docs/original/cypher-queries.docx). Restore the database in a separate Neo4j environment.
 
-## Repository Structure
+## Main Directory Structure
 
 ```text
 src/
@@ -126,18 +204,18 @@ README.ko.md
 README.zh-CN.md
 ```
 
-## Limitations and Future Work
+## Limitations and Future Improvements
 
-- Reproducibility: the current release centers on result data, the graph dump, design documents, and the exploration demo. Reproducing OCR and extraction requires organizing the processing code and execution settings alongside them.
-- Data consistency: align the counting scopes of demo records and graph nodes, and link provenance across source text, annotations, and extraction results.
-- Evaluation: document annotation rules and a test set, then evaluate OCR, entity recognition, relation extraction, and retrieval separately.
-- Statistical interpretation: region assignment uses heuristics and unknown quantities default to 1. Interpret charts in light of documentary coverage and aggregation rules.
+- Reproducibility: currently published materials focus on result data, the graph dump, design documents, and the exploration demo. Reproducing OCR and extraction also requires organizing the processing code and execution settings.
+- Data consistency: the counting scopes of demo records and graph nodes need to be aligned, and the provenance of source text, annotations, and extraction results needs to be linked.
+- Evaluation: the report includes BERT and LLM extraction evaluations, but comparisons with unified labels and evaluation sets and a separate evaluation of the final rule-combined pipeline are needed. Quantitative evaluation of OCR and search/recommendation quality also remains future work.
+- Statistical interpretation: regions are estimated heuristically, and unknown quantities are treated as 1. The literature's coverage and the counting rules should be considered together.
 
-## References and Usage Terms
+## References and Terms of Use
 
 - [Original final poster](docs/original/final-poster.pptx)
 - [Cypher exploration examples and graph views](docs/original/cypher-queries.docx)
 - [Core class schema](docs/schema/classes.csv) · [Relation schema](docs/schema/relations.csv)
-- Documentary source: 《中国音乐文物大系》.
+- Literature source: 《中国音乐文物大系》.
 
-This is a shared course team output. Use and redistribution of documentary data, images, and code are subject to the respective rights and the team's agreement.
+This is a joint deliverable of a course team project. Use and redistribution of the literature data, images, and code are subject to the rights associated with each resource and the team's agreements.
