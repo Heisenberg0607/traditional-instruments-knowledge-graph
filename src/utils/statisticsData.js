@@ -1,3 +1,6 @@
+import { vocabularySearchText } from '../i18n'
+import { englishRecordSearchText } from '../i18n/recordLabels'
+
 export const INSTRUMENT_TREE = {
   name: '乐器',
   children: [
@@ -522,6 +525,14 @@ export function searchArtifactText(artifact) {
     artifact.文献,
     artifact.音乐性能,
     artifact.标注部分?.text,
-    getArtifactProvince(artifact)
+    getArtifactProvince(artifact),
+    englishRecordSearchText(artifact),
+    vocabularySearchText([
+      getArtifactPrimaryType(artifact),
+      getTypeMajorGroup(getArtifactPrimaryType(artifact)),
+      normalizeEraGroup(artifact.时代),
+      getArtifactProvince(artifact),
+      ...(artifact.标注部分?.entities || []).filter(entity => entity.label === '纹饰').map(entity => entity.text)
+    ])
   ].filter(Boolean).join(' ').toLowerCase()
 }

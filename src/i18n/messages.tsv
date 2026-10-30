@@ -1,0 +1,309 @@
+文物知识图谱检索系统	Artifact Knowledge Graph	문화유물 지식 그래프
+首页	Home	홈
+关于	About	소개
+统计分析	Statistics	통계 분석
+语言	Language	언어
+探索古代乐器的奥秘	Explore ancient musical instruments	고대 악기의 세계를 탐색하세요
+基于NER+RE模型自动标注的文物知识图谱，支持语义检索和相似文物推荐	Explore an artifact knowledge graph annotated with NER+RE models, with search and similar artifact recommendations.	NER+RE 모델로 주석을 부여한 문화유물 지식 그래프에서 검색과 유사 유물 추천을 이용하세요.
+搜索文物名称、纹饰、尺寸...	Search artifact names, decorations, dimensions…	유물 이름, 문양, 치수 검색…
+搜索	Search	검색
+筛选条件	Filters	검색 필터
+时代	Period	시대
+全部时代	All periods	모든 시대
+乐器类型	Instrument type	악기 종류
+全部类型	All types	모든 종류
+纹饰	Decoration	문양
+全部纹饰	All decorations	모든 문양
+应用筛选	Apply filters	필터 적용
+重置	Reset	초기화
+文物总数	Total artifacts	전체 유물 수
+先秦-清	Pre-Qin–Qing	선진~청
+历史时代	Historical periods	역사 시대
+关系总数	Total relations	전체 관계 수
+精选文物	Featured artifacts	주요 유물
+加载中...	Loading…	불러오는 중…
+未命名文物	Unnamed artifact	이름 없는 유물
+类型：	Type: 	종류: 
+时代：	Period: 	시대: 
+机构：	Institution: 	소장 기관: 
+未知	Unknown	미상
+未找到符合条件的文物	No artifacts match these filters.	조건에 맞는 유물이 없습니다.
+基于NER+RE模型的知识图谱检索系统 | 数据来源：古代乐器考古资料	NER+RE knowledge graph search | Source: archaeological records of ancient musical instruments	NER+RE 기반 지식 그래프 검색 | 출처: 고대 악기 고고학 자료
+搜索结果	Search results	검색 결과
+继续搜索...	Search again…	다시 검색…
+地区：	Region: 	지역: 
+编号：	ID: 	번호: 
+无	None	없음
+识别实体：	Recognized entities: 	인식된 개체: 
+未找到匹配的文物	No matching artifacts found.	일치하는 유물이 없습니다.
+返回首页重新搜索	Return home to search again	홈으로 돌아가 다시 검색
+返回统计分析	Back to statistics	통계 분석으로 돌아가기
+返回首页	Back to home	홈으로 돌아가기
+关键词	Keywords	검색어
+地区	Region	지역
+未找到该文物	Artifact not found.	유물을 찾을 수 없습니다.
+基本信息	Basic information	기본 정보
+扩展信息	Additional information	추가 정보
+参考文献	References	참고 문헌
+音乐性能	Musical properties	음향 특성
+识别实体列表	Recognized entities	인식된 개체 목록
+关系列表	Relations	관계 목록
+置信度:	Confidence:	신뢰도:
+暂无关系数据	No relation data available.	관계 데이터가 없습니다.
+相似文物推荐	Similar artifacts	유사 유물 추천
+未知类型	Unknown type	종류 미상
+未知时代	Unknown period	시대 미상
+相似度	Similarity	유사도
+暂无相似文物推荐	No similar artifacts available.	추천할 유사 유물이 없습니다.
+记录编号	Record ID	기록 ID
+器物名称	Artifact name	유물 이름
+数量	Quantity	수량
+收藏机构	Holding institution	소장 기관
+文物编号	Artifact ID	유물 번호
+出土时间	Excavation date	출토 시기
+移交时间	Transfer date	이관 시기
+出土地点	Excavation site	출토지
+原藏机构	Original collection	기존 소장 기관
+关于本系统	About this system	시스템 소개
+项目简介	Project overview	프로젝트 개요
+数据说明	About the data	데이터 안내
+技术栈	Technology	사용 기술
+前端框架：Vue 3 + Composition API	Frontend: Vue 3 + Composition API	프런트엔드: Vue 3 + Composition API
+构建工具：Vite	Build tool: Vite	빌드 도구: Vite
+状态管理：Pinia	State management: Pinia	상태 관리: Pinia
+数据可视化：D3.js	Visualization: D3.js	데이터 시각화: D3.js
+关键词检索：自定义字符串匹配	Keyword search: custom string matching	키워드 검색: 사용자 정의 문자열 매칭
+样式方案：Tailwind CSS	Styling: Tailwind CSS	스타일: Tailwind CSS
+统计分析与可视化	Statistics and visualization	통계 분석 및 시각화
+乐器类型分布	Instrument type distribution	악기 종류별 분포
+使用层级饼图展示乐器具体器型的分类关系	Explore instrument classifications in a sunburst chart.	선버스트 차트로 악기의 세부 분류를 살펴보세요.
+外圈为具体乐器类型；单击任一扇区可聚焦该层级，单击饼图中心或空白背景可回退。	The outer ring shows specific instrument types. Click a sector to focus; click the center or background to go back.	바깥 고리는 세부 악기 종류입니다. 영역을 클릭해 확대하고, 중앙이나 빈 배경을 클릭해 돌아가세요.
+当前类别	Selected category	선택한 분류
+记录数	Records	기록 수
+总数量	Total quantity	전체 수량
+占比	Share	비율
+地域分布	Regional distribution	지역별 분포
+时代分布	Period distribution	시대별 분포
+具体案例	Examples	유물 사례
+时代未详	Period unknown	시대 미상
+暂无案例	No examples available.	사례가 없습니다.
+中国省级分布图	Distribution by province in China	중국 성급 지역별 분포
+底图与省份交互层会同步缩放移动，单击省份后展示详细信息。	Zoom and pan the map. Click a province to view details.	지도를 확대하거나 이동하고, 지역을 클릭해 상세 정보를 확인하세요.
+当前省份	Selected province	선택한 지역
+器类数	Instrument types	악기 종류 수
+博物馆 / 保存机构	Museums / collections	박물관 / 소장 기관
+主要出土地点	Main excavation sites	주요 출토지
+器类构成	Instrument composition	악기 구성
+请悬停或单击地图中的省份查看详细统计。	Hover over or click a province to view its statistics.	지도의 지역에 마우스를 올리거나 클릭해 통계를 확인하세요.
+地区 × 乐器类型热力图	Region × instrument type heatmap	지역 × 악기 종류 히트맵
+颜色越深表示该地区该器类记录越多；点击有数值的单元格跳转到对应检索页面，例如“上海 × 甬钟”。	Darker cells indicate more records. Click a nonzero cell to search that region and type, for example Shanghai × Yongzhong.	색이 진할수록 기록이 많습니다. 값이 있는 칸을 클릭하면 해당 지역과 악기 종류로 검색합니다. 예: 상하이 × 용종.
+乐器类型演变趋势分析	Instrument types through time	시대별 악기 변화 추이
+随着时代变化，乐器类型存在明显变化。堆叠面积图横轴为朝代，纵轴为数量，颜色表示具体器类。	The stacked area chart shows periods on the horizontal axis, quantities on the vertical axis, and instrument types by color.	누적 영역 차트의 가로축은 시대, 세로축은 수량이며 색상은 악기 종류를 나타냅니다.
+乐器组合共现关系分析	Instrument co-occurrence	악기 조합의 공출현 관계
+按同一出土地点或同一机构时代归并，展示高频器物组合聚类。点击左侧聚类圆或连线后，右侧只显示当前选中组合与图例。	Explore frequent instrument combinations grouped by excavation context. Click a cluster or link to view the selected combination and legend.	출토 맥락에 따라 묶인 주요 악기 조합을 살펴보세요. 군집이나 연결선을 클릭하면 선택한 조합과 범례가 표시됩니다.
+当前选中	Selected combination	선택한 조합
+暂无选中组合	No combination selected	선택한 조합 없음
+点击左侧聚类圆或连线查看组合信息。	Click a cluster or link on the left to view a combination.	왼쪽 군집이나 연결선을 클릭해 조합 정보를 확인하세요.
+图例	Legend	범례
+暂无记录	No records	기록 없음
+暂无数据	No data	데이터 없음
+收起 ↑	Collapse ↑	접기 ↑
+文物记录	Artifact records	유물 기록 수
+覆盖省份	Provinces represented	자료가 있는 지역 수
+音乐性能记录	Records with musical properties	음향 특성 기록 수
+地域	Region	지역
+其他	Other	기타
+暂无	None available	없음
+单击查看检索结果	Click to view search results	클릭하여 검색 결과 보기
+暂无可绘制的时代演变数据	No historical trend data available.	시대별 변화 데이터가 없습니다.
+暂无类型记录	No type records	종류별 기록 없음
+未命名器物	Unnamed instrument	이름 없는 악기
+暂无可识别的共现关系	No co-occurrence relationships found.	공출현 관계가 없습니다.
+仅展示 Top 7 高频组合；圆形簇大小代表共现规模，节点为具体器物实例。	The top 7 combinations are shown. Cluster size represents co-occurrence frequency; nodes represent individual artifacts.	상위 7개 조합을 표시합니다. 원의 크기는 공출현 규모를, 노드는 개별 유물을 나타냅니다.
+乐器	Instruments	악기
+体鸣乐器	Idiophones	체명악기
+碰奏体鸣乐器	Concussion idiophones	충돌 체명악기
+敲奏体鸣乐器	Struck idiophones	타격 체명악기
+钟类	Bells	종류(鐘類)
+打击器类	Percussion instruments	타악기류
+摇奏体鸣乐器	Shaken idiophones	흔들어 연주하는 체명악기
+铙	Nao bells	요(鐃)
+钹	Cymbals	발(鈸)
+板	Clappers	박판
+钟	Bells (Zhong)	종(鐘)
+甬钟	Yongzhong bells	용종(甬鐘)
+钮钟	Niuzhong bells	뉴종(鈕鐘)
+扁钟	Flattened bells	편종(扁鐘)
+圆钟	Round bells	원종(圓鐘)
+梵钟	Temple bells	범종
+镈	Bo bells	박(鎛)
+钲	Zheng bells	정(鉦)
+句鑃	Goudiao bells	구조(句鑃)
+錞于	Chunyu bells	순우(錞于)
+铜鼓	Bronze drums	동고(銅鼓)
+锣	Gongs	징
+木鱼	Wooden fish	목어
+铎	Duo bells	탁(鐸)
+铃	Small bells	방울
+商代	Shang dynasty	상
+西周	Western Zhou	서주
+春秋	Spring and Autumn period	춘추
+战国	Warring States period	전국
+汉代	Han dynasty	한
+唐代	Tang dynasty	당
+宋代	Song dynasty	송
+元代	Yuan dynasty	원
+明代	Ming dynasty	명
+清代	Qing dynasty	청
+新石器	Neolithic	신석기
+秦汉	Qin–Han	진·한
+南北朝	Northern and Southern dynasties	남북조
+隋唐	Sui–Tang	수·당
+兽面纹	Animal-mask motif	수면문
+云雷纹	Cloud-and-thunder motif	운뢰문
+饕餮纹	Taotie motif	도철문
+蝉纹	Cicada motif	선문(매미 무늬)
+龙纹	Dragon motif	용문
+凤纹	Phoenix motif	봉황문
+乐器部件	Instrument part	악기 부위
+数据属性	Attribute	속성
+形状说明	Shape description	형태 설명
+有直径	Has diameter	직경
+有高度	Has height	높이
+有长度	Has length	길이
+有宽度	Has width	너비
+有厚度	Has thickness	두께
+有间距	Has spacing	간격
+有数量	Has quantity	수량
+全高	Overall height	전체 높이
+全长	Overall length	전체 길이
+全宽	Overall width	전체 너비
+全重	Total weight	전체 무게
+全径	Overall diameter	전체 직경
+全体厚度	Overall thickness	전체 두께
+尺寸说明	Dimensions	치수 설명
+北京	Beijing	베이징
+天津	Tianjin	톈진
+河北	Hebei	허베이
+山西	Shanxi	산시(山西)
+内蒙古	Inner Mongolia	네이멍구
+辽宁	Liaoning	랴오닝
+吉林	Jilin	지린
+黑龙江	Heilongjiang	헤이룽장
+上海	Shanghai	상하이
+江苏	Jiangsu	장쑤
+浙江	Zhejiang	저장
+安徽	Anhui	안후이
+福建	Fujian	푸젠
+江西	Jiangxi	장시
+山东	Shandong	산둥
+河南	Henan	허난
+湖北	Hubei	후베이
+湖南	Hunan	후난
+广东	Guangdong	광둥
+广西	Guangxi	광시
+海南	Hainan	하이난
+重庆	Chongqing	충칭
+四川	Sichuan	쓰촨
+贵州	Guizhou	구이저우
+云南	Yunnan	윈난
+西藏	Tibet	시짱
+陕西	Shaanxi	산시(陝西)
+甘肃	Gansu	간쑤
+青海	Qinghai	칭하이
+宁夏	Ningxia	닝샤
+新疆	Xinjiang	신장
+香港	Hong Kong	홍콩
+澳门	Macao	마카오
+台湾	Taiwan	타이완
+🔔 文物知识图谱检索系统	🔔 Artifact Knowledge Graph	🔔 문화유물 지식 그래프
+{0} 条关系	{0} relations	관계 {0}개
+找到 {0} 条结果	{0} results found	검색 결과 {0}건
++{0} 更多	+{0} more	+{0}개 더 보기
+包含 {0} 条关系	Contains {0} relations	관계 {0}개 포함
+← 返回首页	← Back to home	← 홈으로 돌아가기
+({0} 个)	({0})	({0}개)
+({0} 条)	({0})	({0}개)
+置信度: {0}%	Confidence: {0}%	신뢰도: {0}%
+本系统基于 NER+RE 模型对古代乐器文物进行自动标注，构建文物知识图谱， 支持语义检索、相似推荐与多维统计分析。	This system uses NER+RE models to annotate ancient musical artifacts and build a knowledge graph for search, similarity recommendations, and multidimensional analysis.	NER+RE 모델로 고대 악기 유물에 자동 주석을 부여하고 지식 그래프를 구축하여 검색, 유사 유물 추천 및 다차원 통계 분석을 제공합니다.
+数据依据《中国音乐文物大系》相关文献整理。当前演示读取本地 JSON，共包含 {0} 条文物记录，涵盖 {1} 种乐器类型。	Compiled from literature associated with the Compendium of Chinese Musical Relics. This demonstration contains {0} artifact records across {1} instrument types in local JSON data.	『중국음악문물대계』 관련 문헌을 정리한 자료입니다. 이 데모는 로컬 JSON 데이터의 유물 기록 {0}건과 악기 종류 {1}개를 제공합니다.
+基于 {0} 件文物数据的乐器类型、时代、地域、组合共现与音乐性能信息分析	Explore instrument types, periods, regions, co-occurrence, and musical properties across {0} artifact records.	유물 기록 {0}건의 악기 종류, 시대, 지역, 공출현 조합 및 음향 특성을 분석합니다.
+共现 {0} 组地点 / 机构记录	Co-occurs in {0} site / institution groups	출토지 / 기관 기록 {0}개 그룹에서 공출현
+{0} 项	{0} items	{0}개 항목
+更多 {0} 条 ↓	Show {0} more ↓	{0}개 더 보기 ↓
+{0} 条	{0} records	{0}건
+<strong>{0}</strong><br/>记录数：{1}<br/>占比：{2}%	<strong>{0}</strong><br/>Records: {1}<br/>Share: {2}%	<strong>{0}</strong><br/>기록 수: {1}<br/>비율: {2}%
+<strong>{0}：{1}</strong><br/>数量：{2}<br/>占比：{3}%	<strong>{0}: {1}</strong><br/>Quantity: {2}<br/>Share: {3}%	<strong>{0}: {1}</strong><br/>수량: {2}<br/>비율: {3}%
+{0}合计	{0} total	{0} 합계
+<strong>{0}</strong><br/>乐器总数：0<br/>记录数：0<br/>主要器类：暂无	<strong>{0}</strong><br/>Instruments: 0<br/>Records: 0<br/>Main types: none	<strong>{0}</strong><br/>악기 수: 0<br/>기록 수: 0<br/>주요 종류: 없음
+<strong>{0}</strong><br/>乐器总数：{1}<br/>记录数：{2}<br/>主要器类：{3}	<strong>{0}</strong><br/>Instruments: {1}<br/>Records: {2}<br/>Main types: {3}	<strong>{0}</strong><br/>악기 수: {1}<br/>기록 수: {2}<br/>주요 종류: {3}
+<strong>{0} × {1}</strong><br/>记录数：{2}<br/>单击查看检索结果	<strong>{0} × {1}</strong><br/>Records: {2}<br/>Click to view search results	<strong>{0} × {1}</strong><br/>기록 수: {2}<br/>클릭하여 검색 결과 보기
+<strong>{0} × {1}</strong><br/>暂无记录	<strong>{0} × {1}</strong><br/>No records	<strong>{0} × {1}</strong><br/>기록 없음
+<strong>{0}</strong><br/>跨时代数量：{1}	<strong>{0}</strong><br/>Quantity across periods: {1}	<strong>{0}</strong><br/>전체 시대 수량: {1}
+<strong>{0}</strong><br/>总数量：{1}	<strong>{0}</strong><br/>Total quantity: {1}	<strong>{0}</strong><br/>전체 수량: {1}
+<strong>{0}</strong><br/>总数量：{1}<br/>{2}	<strong>{0}</strong><br/>Total quantity: {1}<br/>{2}	<strong>{0}</strong><br/>전체 수량: {1}<br/>{2}
+器物{0}	Instrument {0}	악기 {0}
+{0} 组共现 · 展示 {1} 个实例	{0} co-occurrence groups · {1} examples shown	공출현 그룹 {0}개 · 사례 {1}개 표시
+<strong>{0}</strong><br/>地点：{1}<br/>时代：{2}	<strong>{0}</strong><br/>Site: {1}<br/>Period: {2}	<strong>{0}</strong><br/>출토지: {1}<br/>시대: {2}
+<strong>{0}</strong><br/>器类：{1}<br/>时代：{2}<br/>地点：{3}	<strong>{0}</strong><br/>Type: {1}<br/>Period: {2}<br/>Site: {3}	<strong>{0}</strong><br/>종류: {1}<br/>시대: {2}<br/>출토지: {3}
+原始资料说明	About source records	원문 자료 안내
+界面、分类、时代和地区名称支持三种语言。文物专名、考古描述、文献及原始标注保留中文原文。	English names, institutions, sites, instrument parts, shapes, decorations, and periods are shown with the original Chinese in parentheses. Proper names use pinyin. Numeric measurements, archaeological narratives, and references retain their source text.	유물명·기관·출토지·악기 부위·형태·문양·시대는 한국어 옆에 중국어 원문을 괄호로 표시합니다. 지명과 고유명사는 한글로 음역하며, 숫자·고고학 서술·문헌은 원문을 유지합니다.
+本页统计的对象为文物数据中识别出的乐器器型，重点展示体鸣乐器内部的演奏方式、器类与具体器型。	These statistics cover instrument forms identified in the artifact records, focusing on playing methods, families, and types of idiophones.	유물 자료에서 확인된 악기 형태를 분석하며, 체명악기의 연주 방식과 분류 및 세부 형태를 중심으로 보여줍니다.
+体鸣乐器依靠器物自身振动发声，青铜乐器中钟、铙、钲、铎等都属于这一大类。	Idiophones produce sound through vibration of the instrument itself. Bronze bells such as Zhong, Nao, Zheng, and Duo belong to this family.	체명악기는 악기 자체의 진동으로 소리를 냅니다. 청동 악기인 종, 요, 정, 탁 등이 이 분류에 속합니다.
+碰奏体鸣乐器多通过相互碰击发声，包含铙、钹、板等器型。	Concussion idiophones sound when struck together; this classification includes Nao, cymbals, and clappers.	충돌 체명악기는 서로 부딪쳐 소리를 내며, 이 분류에는 요, 발, 박판 등이 포함됩니다.
+敲奏体鸣乐器通过外物敲击器体发声，是青铜礼乐器中数量较多、类型较丰富的一支。	Struck idiophones sound when hit with another object and form a large, varied group of bronze ritual instruments.	타격 체명악기는 다른 물체로 몸체를 쳐서 소리를 내며 청동 예악기 중 수량과 종류가 풍부한 분류입니다.
+钟类是敲奏体鸣乐器的重要类型，常见器型包括钟、甬钟、钮钟、扁钟、圆钟、梵钟与镈。	The bell family includes Zhong, Yongzhong, Niuzhong, flattened bells, round bells, temple bells, and Bo.	종류(鐘類)는 타격 체명악기의 주요 분류로 종, 용종, 뉴종, 편종, 원종, 범종, 박 등이 포함됩니다.
+打击器类包括钲、句鑃、錞于、铜鼓、锣、木鱼等，常与军事、礼仪和地方音乐传统相关。	This percussion group includes Zheng, Goudiao, Chunyu, bronze drums, gongs, and wooden fish, associated with military, ritual, and local music traditions.	타악기류에는 정, 구조, 순우, 동고, 징, 목어 등이 포함되며 군사·의례·지역 음악 전통과 관련됩니다.
+摇奏体鸣乐器通过摇动使内部或外部构件撞击发声，当前分类包含铎和铃。	Shaken idiophones sound when internal or external parts collide as the instrument is shaken. This group contains Duo and small bells.	흔들어 연주하는 체명악기는 내부 또는 외부 부품이 부딪쳐 소리를 내며, 여기에는 탁과 방울이 포함됩니다.
+铙为青铜体鸣乐器，常见于商周时期，多与礼仪、军旅或祭祀场景相关。	Nao are bronze idiophones common in the Shang and Zhou periods, associated with ritual, military, and sacrificial contexts.	요는 상·주 시대에 흔히 나타나는 청동 체명악기로 의례, 군사, 제사와 관련됩니다.
+钹为碰奏体鸣乐器，通常成对相击发声。	Cymbals are concussion idiophones, usually played by striking a pair together.	발은 보통 한 쌍을 서로 부딪쳐 연주하는 충돌 체명악기입니다.
+板为碰奏体鸣乐器，常以敲击或相击方式形成节奏。	Clappers produce rhythm through striking or concussion.	박판은 치거나 서로 부딪쳐 리듬을 만드는 악기입니다.
+钟是青铜礼乐体系中的代表性乐器，器形和制度化组合丰富。	Zhong bells are representative bronze ritual instruments with varied forms and organized ensembles.	종은 청동 예악 체계의 대표적인 악기로 다양한 형태와 편성 체계를 갖습니다.
+甬钟为带甬的钟类乐器，常见于编钟体系。	Yongzhong are bells with a stem, commonly found in chime ensembles.	용종은 자루가 달린 종으로 편종 편성에 흔히 사용됩니다.
+钮钟为顶部设钮的钟类乐器，是编钟组合中的重要类型。	Niuzhong have a suspension loop at the top and are an important type in chime ensembles.	뉴종은 윗부분에 고리가 달린 종으로 편종 편성의 중요한 종류입니다.
+扁钟为钟体较扁的钟类器物。	Flattened bells have a comparatively flat body.	편종(扁鐘)은 몸체가 비교적 납작한 종입니다.
+圆钟为钟体轮廓较圆的钟类器物。	Round bells have a comparatively rounded body profile.	원종은 몸체 윤곽이 비교적 둥근 종입니다.
+梵钟多与佛教寺院和宗教音乐空间相关。	Temple bells are associated with Buddhist temples and religious music.	범종은 주로 불교 사찰 및 종교 음악 공간과 관련됩니다.
+镈是钟类中的大型青铜乐器，常见于礼乐组合。	Bo are large bronze bells often used in ritual ensembles.	박은 종류(鐘類)에 속하는 대형 청동 악기로 예악 편성에서 나타납니다.
+钲为打击体鸣乐器，常与军旅、仪式和号令功能相关。	Zheng are struck idiophones associated with military activity, ceremony, and signaling.	정은 군사 활동, 의식 및 신호 전달과 관련된 타격 체명악기입니다.
+句鑃为青铜打击器类，器名和形制具有较强的时代与地域特征。	Goudiao are bronze percussion instruments whose names and forms show distinctive historical and regional traits.	구조는 명칭과 형태에 시대·지역적 특징이 뚜렷한 청동 타악기입니다.
+錞于是青铜打击器类，常见于西南及楚文化相关区域资料。	Chunyu are bronze percussion instruments often documented in southwestern China and areas associated with Chu culture.	순우는 중국 서남부와 초 문화 관련 지역의 자료에 흔히 나타나는 청동 타악기입니다.
+铜鼓是兼具乐器、礼器和族群标识意义的重要体鸣乐器。	Bronze drums serve as musical instruments, ritual objects, and symbols of group identity.	동고는 악기, 의례용 기물 및 집단 정체성의 상징이라는 의미를 함께 지닙니다.
+锣为打击体鸣乐器，通过槌击金属面发声。	Gongs are struck idiophones sounded by hitting a metal surface with a mallet.	징은 채로 금속 면을 쳐서 소리를 내는 타격 체명악기입니다.
+木鱼为敲奏体鸣乐器，多见于宗教或仪式音乐语境。	Wooden fish are struck idiophones commonly used in religious or ceremonial music.	목어는 주로 종교 또는 의례 음악에서 사용되는 타격 체명악기입니다.
+铎为摇奏体鸣乐器，摇动时内部舌件撞击器壁发声。	Duo bells sound when an internal clapper strikes the wall as the bell is shaken.	탁은 흔들 때 내부의 추가 벽면을 쳐서 소리를 내는 체명악기입니다.
+铃为摇奏体鸣乐器，形体较小，常与佩饰、仪仗或仪式场景相关。	Small bells are shaken idiophones often associated with ornaments, processions, and ritual contexts.	방울은 작은 크기의 체명악기로 장식, 의장 행렬 또는 의례와 관련됩니다.
+该类别为当前数据中识别出的乐器类型，可结合地域、时代和案例进一步查看其分布特征。	This instrument type is identified in the current data. Explore regions, periods, and examples to understand its distribution.	현재 자료에서 확인된 악기 종류입니다. 지역, 시대 및 사례를 통해 분포 특성을 살펴보세요.
+商	Shang dynasty	상
+周	Zhou dynasty	주
+东周	Eastern Zhou	동주
+汉	Han dynasty	한
+西汉	Western Han	전한
+东汉	Eastern Han	후한
+唐	Tang dynasty	당
+宋	Song dynasty	송
+北宋	Northern Song	북송
+南宋	Southern Song	남송
+元	Yuan dynasty	원
+明	Ming dynasty	명
+清	Qing dynasty	청
+辽	Liao dynasty	요(遼)
+金	Jin dynasty	금
+北朝	Northern dynasties	북조
+东魏	Eastern Wei	동위
+五代	Five Dynasties	오대
+明清	Ming–Qing	명·청
+宋元	Song–Yuan	송·원
+元明	Yuan–Ming	원·명
+宋金	Song–Jin	송·금
+唐宋	Tang–Song	당·송
+汉魏	Han–Wei	한·위
+商末周初	Late Shang–early Zhou	상 말기~주 초기
+西周末春秋初	Late Western Zhou–early Spring and Autumn	서주 말기~춘추 초기
+战国至西汉	Warring States–Western Han	전국~전한
+战国～汉	Warring States–Han	전국~한
+西汉～六朝	Western Han–Six Dynasties	전한~육조
+东汉～南朝	Eastern Han–Southern dynasties	후한~남조
+南朝末～中唐	Late Southern dynasties–middle Tang	남조 말기~당 중기
+宋～明	Song–Ming	송~명
+南宋～明	Southern Song–Ming	남송~명
